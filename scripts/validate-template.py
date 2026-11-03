@@ -9,7 +9,7 @@ SRC=(ROOT/'winter-wrapped-up.html').read_text()
 VOID={'area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr'}
 class Structure(HTMLParser):
  def __init__(self):
-  super().__init__(convert_charrefs=True); self.stack=[]; self.images=[]; self.regions=[]; self.links=[]; self.text=[]
+  super().__init__(convert_charrefs=True); self.stack=[]; self.images=[]; self.regions=[]; self.links=[]; self.text=[]; self.editable_images=[]
  def handle_starttag(self,tag,attrs):
   a=dict(attrs); parent=self.stack[-1] if self.stack else None
   if tag=='tr': assert parent in ('table','tbody','thead','tfoot'), (tag,parent)
@@ -20,9 +20,12 @@ class Structure(HTMLParser):
    if tag in ('singleline','multiline'):
     assert not any(t in ('singleline','multiline') for t in self.stack), 'Nested editable regions'
   if tag=='img':
-   assert a.get('editable')=='true' and 'alt' in a and a.get('width')
-   assert not any(t in ('singleline','multiline') for t in self.stack), 'Campaign Monitor forbids editable images within text regions'
+   assert 'alt' in a and a.get('width')
+   assert not any(t in ('singleline','multiline') for t in self.stack), 'Campaign Monitor forbids images within editable text regions'
    assert (ROOT/a['src']).is_file(); self.images.append(a['src'])
+   if 'editable' in a:
+    assert a['editable']=='true'; self.editable_images.append(a['src'])
+   if 'editable' not in a: assert any(t=='a' for t in self.stack), 'Noneditable image must be linked'
   if tag=='unsubscribe':
    assert not any(t in ('singleline','multiline') for t in self.stack), 'Unsubscribe must be outside editable regions'
   if tag=='a':
@@ -58,6 +61,8 @@ required=[
 for phrase in required: assert phrase in text, phrase
 assert SRC.count('BROWSE WINTER WRAPPED UP CARS')==2
 assert len(p.images)==15 and len(set(p.images))==15
+assert len(p.editable_images)==9, 'Only hero, benefit, dealer and contact image controls should be editable'
+assert not any('/facebook' in x or '/linkedin' in x or '/tiktok' in x for x in p.editable_images), 'Fixed social images must not be consumed by Campaign Monitor editor'
 assert 'logo-a.png' not in SRC and 'position:absolute' not in SRC and '<v:' not in SRC
 assert '<script' not in SRC and 'javascript:' not in SRC
 assert SRC.count('<unsubscribe>Unsubscribe</unsubscribe>')==1
@@ -90,7 +95,13 @@ for platform in ('Facebook','LinkedIn','TikTok'):
  assert f'aria-label="{platform}"' in SRC
  assert f'label="{platform} icon link"' not in SRC
  assert f'>{platform}</a>' not in SRC
-assert 'outline:1px solid #8292ad' in SRC, 'Subtle CTA outline must survive on forced dark clients where supported'
+assert 'outline:1px solid #8292ad' not in SRC
+assert '.cta a { display:block; background-color:transparent; padding:14px 18px; border:2px solid #171d36;' in SRC
+assert '.cta-light a { background-color:transparent; border-color:#ffffff; color:#ffffff !important; }' in SRC
+assert 'background-color:#334b7b !important' not in SRC
+assert '<!--[if !mso]><!-->' in SRC and SRC.count('<!--[if !mso]><!-->')==6
+assert 'label="Sender postal address"' in SRC
+assert '499 Newcastle Road' in SRC and 'Stoke on Trent | ST6 6PJ' in SRC
 assert '.light-asset { display:block; }' in SRC
 assert '.dark-asset { display:none;' in SRC
 
@@ -153,12 +164,19 @@ with sync_playwright() as pw:
   assert page.locator('img').evaluate_all('(is)=>is.every(i=>i.naturalWidth>0)')
   assert page.locator('img').evaluate_all('(is)=>is.every(i=>{let b=i.getBoundingClientRect();return b.width===0 || (b.width<=i.naturalWidth+1 && b.height>0 && Math.abs(b.width/b.height-i.naturalWidth/i.naturalHeight)<0.02)})'), 'Image distortion or enlargement'
   assert page.locator('img.light-asset:visible').count()==6
-  assert page.locator('img.dark-asset:visible').count()==0
+  assert page.locator('.dark-asset:visible').count()==0
   assert page.locator('img.light-asset').first.get_attribute('src')=='images/winter-wrapped-up/hero.png'
   for social in ('Facebook','LinkedIn','TikTok'):
    assert page.locator(f'a.social-icon-link[aria-label="{social}"]').count()==1
    assert page.locator(f'a.social-icon-link[aria-label="{social}"] img').count()==2
+   assert page.locator(f'a.social-icon-link[aria-label="{social}"] img[editable]').count()==0
 
+  assert '499 Newcastle Road' in page.locator('.dm-address').inner_text()
+  assert 'ST6 6PJ' in page.locator('.dm-address').inner_text()
+  for unwanted_social_text in ('Facebook','LinkedIn','TikTok'):
+   assert unwanted_social_text not in page.locator('.dm-address').inner_text()
+  assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).backgroundColor')=='rgba(0, 0, 0, 0)'
+  assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).borderTopWidth')=='2px'
   assert page.locator('unsubscribe').is_visible()
   assert page.locator('unsubscribe').inner_text()=='Unsubscribe'
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'), width
@@ -197,8 +215,13 @@ with sync_playwright() as pw:
   dark.goto(f'http://127.0.0.1:{server.server_port}/winter-wrapped-up.html')
   dark.locator('img').evaluate_all('(is)=>Promise.all(is.map(i=>i.decode()))')
   assert dark.locator('img.light-asset:visible').count()==0, ('light asset in dark view',width)
-  assert dark.locator('img.dark-asset:visible').count()==6, ('missing dark assets',width)
-  assert dark.locator('img.dark-asset').first.get_attribute('src')=='images/winter-wrapped-up/hero-dark.png'
+  assert dark.locator('.dark-asset:visible').count()==6, ('missing dark assets',width)
+  assert dark.locator('.dark-asset img').first.get_attribute('src')=='images/winter-wrapped-up/hero-dark.png'
+  for button in dark.locator('.cta a').all():
+   assert button.evaluate('(e)=>getComputedStyle(e).backgroundColor')=='rgba(0, 0, 0, 0)', ('dark button fill',width)
+   assert button.evaluate('(e)=>getComputedStyle(e).borderTopColor')=='rgb(255, 255, 255)', ('dark white border',width)
+   assert button.evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('dark white text',width)
+  assert '499 Newcastle Road' in dark.locator('.dm-address').inner_text()
   dark_bg=dark.locator('.shell').evaluate('(e)=>getComputedStyle(e).backgroundColor')
   assert dark_bg == 'rgb(26, 32, 43)', ('dark shell',width,dark_bg)
   intro_bg=dark.locator('.dm-intro').evaluate('(e)=>getComputedStyle(e).backgroundColor')
