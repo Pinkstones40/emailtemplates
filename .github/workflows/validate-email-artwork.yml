@@ -15,6 +15,7 @@ on:
       - fix/winter-ios-dark-cta-white-text
       - fix/winter-ios-cta-simplify-cascade
       - fix/winter-offer-or-even-spacing
+      - fix/winter-contact-inline-icon-text
   workflow_dispatch:
 
 permissions:
