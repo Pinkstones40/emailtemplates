@@ -83,3 +83,13 @@ No unsupported overlay work remains necessary under the new combined-hero brief.
 ## New branch verification gate
 
 On branch `fix/winter-wrapped-up-artwork-final`, GitHub Actions workflow `.github/workflows/validate-email-artwork.yml` rebuilds both ZIPs and regenerates previews before running structural and responsive validation. Its uploaded `winter-wrapped-up-campaign-monitor-tested` artifact is the authoritative package for the new HTML once the workflow has passed. The ZIPs and preview PNGs already stored in this branch were generated before these changes and must not be treated as current until rebuilt. Actual Campaign Monitor and Outlook acceptance remains outstanding.
+
+## Dark-mode / decorative changes (3 November 2026)
+
+- Removed the two pink accent dividers below the supporting headline and dealership visit heading
+- Changed the editable “OR” separator to body-copy grey in light mode
+- Added `color-scheme` and `supported-color-schemes` meta tags, `prefers-color-scheme: dark` email CSS and best-effort `data-ogsc` Outlook hooks
+- Added explicit dark surface, dark legal/address cards, light text and high-contrast CTA selectors while retaining untouched PNG exports
+- `scripts/validate-template.py` now asserts these requirements and creates browser-simulated `email-{width}-dark.png` previews at widths 800, 600, 375 and 320
+
+The earlier validation table relates to the historical integration commit. The new GitHub Actions workflow builds and validates the current branch; use its downloadable artifact. **No claim is made that Gmail iOS, Windows Outlook or Campaign Monitor will preserve all custom dark-mode CSS until a real send/client test has passed.**
