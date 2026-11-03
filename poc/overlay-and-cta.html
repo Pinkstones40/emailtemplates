@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Winter Wrapped Up — experimental overlay and CTA</title>
+<style>
+body { margin:0; padding:0; }
+img { border:0; }
+singleline, multiline { display:block; }
+@media screen and (max-width:620px) {
+  .shell { width:100% !important; }
+  .logo { width:130px !important; }
+  .logo-cell { padding:18px 20px 0 0 !important; }
+  .copy { padding:24px 20px !important; }
+}
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:#eeeeee;">
+<!-- EXPERIMENT ONLY: zero-height foreground overlap; no Outlook compatibility claim.
+     If an editor/client removes or ignores max-height, the logo can move above
+     the hero. That is a failed overlay test, not an approved design fallback. -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#eeeeee;">
+<tr><td align="center">
+<!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
+<table role="presentation" class="shell" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;background-color:#ffffff;">
+<tr><td style="background-color:#171e37;">
+  <div style="max-height:0;overflow:visible;position:relative;z-index:2;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr><td class="logo-cell" align="right" style="padding:24px 28px 0 0;">
+      <img editable="true" label="Independent Pinkstones logo" class="logo" src="images/logo-a.png" width="180" alt="Pinkstones logo placeholder A" style="display:block;width:180px;max-width:45%;height:auto;">
+    </td></tr></table>
+  </div>
+  <img editable="true" label="Independent hero artwork" src="images/hero-a.png" width="600" alt="Navy winter artwork placeholder A" style="display:block;width:100%;max-width:600px;height:auto;">
+</td></tr>
+<tr><td class="copy" style="padding:28px 32px;font-family:Arial,Helvetica,sans-serif;color:#171e37;">
+<h1 style="margin:0 0 12px;font-size:30px;line-height:36px;"><singleline label="Campaign heading">WINTER WRAPPED UP</singleline></h1>
+<p style="margin:0 0 12px;font-size:18px;line-height:26px;"><singleline label="Supporting headline">Prices down. Extras included.</singleline></p>
+<p style="margin:0 0 24px;font-size:16px;line-height:24px;"><singleline label="Promotional dates">2nd – 30th November 2026</singleline></p>
+<!-- One anchor is inside the editable region so an editor may change label and href.
+     Whether CM preserves this styled anchor is an explicit import/edit/send test.
+     The border belongs to the anchor, not a non-clickable surrounding cell. -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="font-family:Arial,Helvetica,sans-serif;">
+<multiline label="CTA — edit link label and destination"><p style="margin:0;text-align:center;"><a href="https://www.pinkstones.uk/winter-wrapped-up" style="display:block;background-color:#171e37;border-top:14px solid #171e37;border-bottom:14px solid #171e37;border-left:16px solid #171e37;border-right:16px solid #171e37;border-radius:26px;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;line-height:20px;text-align:center;text-decoration:none;overflow-wrap:break-word;">BROWSE WINTER WRAPPED UP CARS</a></p></multiline>
+</td></tr></table>
+</td></tr>
+<tr><td style="padding:0 32px 24px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:18px;color:#555555;">
+<p style="margin:0 0 8px;">Technical proof of concept only — not a campaign ready to send.</p>
+<p style="margin:0;"><unsubscribe>Unsubscribe</unsubscribe></p>
+</td></tr>
+</table>
+<!--[if mso]></td></tr></table><![endif]-->
+</td></tr></table>
+</body>
+</html>
