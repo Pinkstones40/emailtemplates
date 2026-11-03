@@ -23,7 +23,7 @@ singleline,multiline { display:block; }
 .cta a { display:block; background-color:transparent; padding:14px 18px; border:2px solid #171d36; border-radius:28px; color:#171d36 !important; font-family: Arial, Helvetica, sans-serif; font-size:14px; font-weight:bold; line-height:20px; text-align:center; text-decoration:none; word-wrap:break-word; overflow-wrap:break-word; }
 .cta-light a { background-color:transparent; border-color:#ffffff; color:#ffffff !important; }
 .cta-light a .cta-white-label, .cta-light a font { color:#ffffff !important; text-decoration:none !important; }
-.dm-intro .cta a .cta-primary-label { color:#171d36 !important; -webkit-text-fill-color:#171d36 !important; text-decoration:none !important; }
+/* The first CTA has no nested coloured text: link foreground is the single source of truth. */
 .legal p { margin:0 0 14px; }
 @media screen and (max-width:599px) {
   .shell { width:100% !important; }
@@ -49,7 +49,7 @@ singleline,multiline { display:block; }
    Neither theme introduces a background fill. */
 @media (prefers-color-scheme: light) {
   .dm-intro .cta a { background-color:transparent !important; border-color:#171d36 !important; color:#171d36 !important; }
-  .dm-intro .cta a .cta-primary-label { color:#171d36 !important; -webkit-text-fill-color:#171d36 !important; }
+
 }
 /* OS-aware dark mode. Some email clients ignore these rules and force their own inversion. */
 @media (prefers-color-scheme: dark) {
@@ -64,8 +64,7 @@ singleline,multiline { display:block; }
   .dm-benefits p, .dm-visit h2, .dm-visit h3, .dm-visit p,
   .dm-visit a, .dm-visit td { color:#e4e9f1 !important; }
   .dm-intro .cta a { background-color:transparent !important; border-color:#ffffff !important; color:#ffffff !important; }
-  .dm-intro .cta a .cta-primary-label { color:#ffffff !important; -webkit-text-fill-color:#ffffff !important; }
-  .dm-intro .cta a { -webkit-text-fill-color:#ffffff !important; }
+  .dm-intro .cta a, .dm-intro .cta a * { color:#ffffff !important; -webkit-text-fill-color:#ffffff !important; }
   .dm-benefits .dm-benefit-bar { background-color:#283758 !important; }
   .dm-benefits .benefit-title { color:#ffffff !important; }
   .dm-visit .dm-rule { background-color:#60718b !important; }
@@ -98,8 +97,7 @@ singleline,multiline { display:block; }
 [data-ogsc] .dm-benefits .dm-benefit-bar { background-color:#283758 !important; }
 [data-ogsc] .dm-benefits .benefit-title { color:#ffffff !important; }
 [data-ogsc] .dm-intro .cta a { background-color:transparent !important; border-color:#ffffff !important; color:#ffffff !important; }
-[data-ogsc] .dm-intro .cta a .cta-primary-label { color:#ffffff !important; -webkit-text-fill-color:#ffffff !important; }
-[data-ogsc] .dm-intro .cta a { -webkit-text-fill-color:#ffffff !important; }
+[data-ogsc] .dm-intro .cta a, [data-ogsc] .dm-intro .cta a * { color:#ffffff !important; -webkit-text-fill-color:#ffffff !important; }
 [data-ogsc] .closing-bg .cta-light a { background-color:transparent !important; border-color:#ffffff !important; color:#ffffff !important; }
 [data-ogsc] .dm-visit .dm-address { background-color:#242e3f !important; }
 [data-ogsc] .dm-visit .dm-rule, [data-ogsc] .dm-legal .dm-rule { background-color:#60718b !important; }
@@ -114,7 +112,7 @@ body,table,td,p,h1,h2,h3,a { font-family: Arial, Helvetica, sans-serif !importan
 .cta a { border-radius:0 !important; }
 /* Word-based Outlook uses the default unfilled navy outline and navy text. */
 .dm-intro .cta a { background-color:transparent !important; border-color:#171d36 !important; color:#171d36 !important; }
-.dm-intro .cta a .cta-primary-label { color:#171d36 !important; -webkit-text-fill-color:#171d36 !important; text-decoration:none !important; }
+
 .cta-light a, .cta-light a span, .cta-light a font { color:#ffffff !important; text-decoration:none !important; }
 </style><![endif]-->
 </head>
@@ -134,7 +132,7 @@ body,table,td,p,h1,h2,h3,a { font-family: Arial, Helvetica, sans-serif !importan
 <multiline label="Campaign dates"><p style="margin:16px 0 20px;font-size:15px;line-height:24px;color:#171d36;"><strong>2nd – 30th November 2026</strong></p></multiline>
 <multiline label="Introduction"><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">The temperature isn't the only thing dropping this November!</p><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">Our <strong>Winter Wrapped Up</strong> event has arrived at Pinkstones Used Car Centre, and we've reduced prices across a specially selected range of quality used cars.</p><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">Whether you're looking for a practical runaround, a family SUV or simply fancy a change, there's never been a better time to take a look at what's waiting for you.</p><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">And because we believe a great deal should come with a little something extra, we've wrapped up two fantastic benefits for you to choose from.</p></multiline>
 <div style="padding-top:8px;"><table role="presentation" align="center" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:440px;"><tr><td class="cta" align="center" style="font-family: Arial, Helvetica, sans-serif;">
-<multiline label="Primary CTA — label and link"><p style="margin:0;text-align:center;"><a href="https://www.pinkstones.uk/winter-wrapped-up" style="display:block;background-color:transparent;padding:14px 18px;border:2px solid #171d36;border-radius:28px;color:#171d36;font-family: Arial, Helvetica, sans-serif;font-size:14px;font-weight:bold;line-height:20px;text-align:center;text-decoration:none;word-wrap:break-word;overflow-wrap:break-word;"><span class="cta-primary-label" style="color:#171d36;-webkit-text-fill-color:#171d36;text-decoration:none;">BROWSE WINTER WRAPPED UP CARS</span></a></p></multiline>
+<multiline label="Primary CTA — label and link"><p style="margin:0;text-align:center;"><a href="https://www.pinkstones.uk/winter-wrapped-up" style="display:block;background-color:transparent;padding:14px 18px;border:2px solid #171d36;border-radius:28px;color:#171d36;font-family: Arial, Helvetica, sans-serif;font-size:14px;font-weight:bold;line-height:20px;text-align:center;text-decoration:none;word-wrap:break-word;overflow-wrap:break-word;">BROWSE WINTER WRAPPED UP CARS</a></p></multiline>
 </td></tr></table></div>
 </td></tr>
 <!-- BENEFITS: stacked like the PDF; each description is associated with its offer. -->
