@@ -98,3 +98,7 @@ The current template contains nine default/light foreground images, six addition
 - TikTok destination icon — light mode / dark mode; one anchor around both images
 
 The old **Facebook destination**, **LinkedIn destination**, and **TikTok destination** text regions were intentionally removed. The three links are embedded in HTML around image controls; Campaign Monitor's editable image interface offers URL options, but actual paired-image link edits must be validated after saving.
+
+## Amendment: Campaign Monitor-safe footer (3 November 2026)
+
+To prevent Campaign Monitor moving social text/metadata into the address region, the Facebook/LinkedIn/TikTok icons are now **static template assets within fixed linked HTML**, rather than six editable image controls. The visible labels stay removed. Updating social destinations or icons requires modifying this source template and reimporting; this is intentional until a stable editable-social-image implementation has been demonstrated in Campaign Monitor. Phone, website, both hero variants and other foreground artwork remain editable. The sender business, postal address, and telephone stay in independent, labelled text regions in their own address card.
