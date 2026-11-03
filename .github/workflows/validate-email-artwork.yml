@@ -10,6 +10,7 @@ on:
       - fix/winter-wrapped-up-light-mode-navy-cta
       - fix/winter-offer-alignment-android-cta
       - fix/winter-cta-foreground-colours
+      - fix/winter-primary-cta-white-foreground
   workflow_dispatch:
 
 permissions:
