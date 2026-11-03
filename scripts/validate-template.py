@@ -74,6 +74,7 @@ assert 'class="pad dm-intro"' in SRC and 'class="pad dm-benefits"' in SRC
 assert 'class="pad dm-visit"' in SRC and 'class="pad legal dm-legal"' in SRC
 assert 'color:#df429c' not in SRC, 'Old pink divider/OR treatment unexpectedly present'
 assert 'label="Benefit choice separator">OR</singleline>' in SRC
+assert '<p style="margin:16px 0 16px;text-align:center;font-size:20px;line-height:28px;font-weight:bold;color:#555961;"><singleline label="Benefit choice separator">OR</singleline></p>' in SRC, 'OR must have equal 16px above and below'
 assert 'color:#555961;"><singleline label="Benefit choice separator">' in SRC
 assert 'bgcolor="#df429c"' not in SRC, 'Pink divider still present'
 
