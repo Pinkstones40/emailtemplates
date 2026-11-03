@@ -82,7 +82,7 @@ assert all(int(h)<=2 for h in re.findall(r'(?:;|")height:\s*(\d+)px',SRC)), 'Fix
 assert all(int(h)<=2 for h in re.findall(r'<td\b[^>]* height="(\d+)"',SRC)), 'Fixed cell height'
 # Two CTA anchors and one separate full-terms link share the campaign URL.
 assert p.links.count('https://www.pinkstones.uk/winter-wrapped-up')==3
-assert len(p.links)==8, p.links
+assert len(p.links)==10, p.links
 for platform in ('facebook.com','linkedin.com','tiktok.com'):
  assert sum(platform in link for link in p.links)==1, platform
 for platform in ('Facebook','LinkedIn','TikTok'):
