@@ -1,0 +1,42 @@
+name: Validate and package Winter Wrapped Up email
+on:
+  push:
+    branches:
+      - fix/winter-wrapped-up-artwork-final
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Chromium and Playwright
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Rebuild Campaign Monitor packages
+        run: python scripts/package-template.py
+      - name: Run local validation and regenerate preview screenshots
+        run: python scripts/validate-template.py
+      - name: Upload complete import and preview files
+        uses: actions/upload-artifact@v4
+        with:
+          name: winter-wrapped-up-campaign-monitor-tested
+          if-no-files-found: error
+          path: |
+            winter-wrapped-up.html
+            winter-wrapped-up-campaign-monitor.zip
+            winter-wrapped-up-images.zip
+            previews/email-*.png
+            LOCAL-VALIDATION.json
+            IMAGE-SPECS.md
+            README.md
