@@ -104,7 +104,9 @@ assert '<font color="#ffffff"><span class="cta-white-label" style="color:#ffffff
 assert '<span class="cta-primary-label" style="color:#ffffff;text-decoration:none;"><font color="#ffffff">' in SRC
 assert '.dm-intro .cta a .cta-primary-label, .dm-intro .cta a .cta-primary-label font { color:#ffffff !important; }' in SRC
 assert '/* Word-based Outlook ignores the light/dark query but renders a filled primary CTA:' in SRC
-assert '.cta-primary-label, .cta-primary-label font { color:#171d36 !important;' in SRC
+assert '.dm-intro .cta a, .dm-intro .cta a .cta-primary-label, .dm-intro .cta a .cta-primary-label font { color:#ffffff !important;' in SRC
+assert '.cta-primary-label, .cta-primary-label font { color:#171d36 !important;' not in SRC
+assert 'border-radius:28px;color:#ffffff;font-family: Arial, Helvetica, sans-serif;font-size:14px;' in SRC
 assert '.cta-light a, .cta-light a span, .cta-light a font { color:#ffffff !important; text-decoration:none !important; }' in SRC
 assert SRC.count('<table role="presentation" align="center" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">')==2
 assert '.dm-intro .cta a { background-color:transparent !important; border-color:#ffffff !important; color:#ffffff !important; }' in SRC
@@ -191,6 +193,10 @@ with sync_playwright() as pw:
   assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).borderTopWidth')=='2px'
   assert page.locator('.cta-primary-label').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('primary label on navy not white',width)
   assert page.locator('.cta-primary-label font').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('nested primary font on navy not white',width)
+  page.emulate_media(color_scheme='no-preference')
+  assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).backgroundColor')=='rgba(0, 0, 0, 0)', ('default fallback not transparent',width)
+  assert page.locator('.cta-primary-label font').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('default fallback inner CTA label not white',width)
+  page.emulate_media(color_scheme='light')
   assert page.locator('.cta-white-label').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('closing label not white',width)
   for benefit in page.locator('.dm-benefit-bar').all():
    group=benefit.locator('table[align="center"]')
