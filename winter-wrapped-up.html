@@ -20,8 +20,8 @@ singleline,multiline { display:block; }
 /* These selectors also restore button treatment if the rich-text editor retains
    the anchor but removes inline styles. Import/edit/send verification is needed. */
 .cta p { margin:0 !important; text-align:center !important; }
-.cta a { display:block; background-color:#171d36; border-top:14px solid #171d36; border-bottom:14px solid #171d36; border-left:18px solid #171d36; border-right:18px solid #171d36; border-radius:28px; color:#ffffff !important; font-family: Arial, Helvetica, sans-serif; font-size:14px; font-weight:bold; line-height:20px; text-align:center; text-decoration:none; word-wrap:break-word; overflow-wrap:break-word; }
-.cta-light a { background-color:#ffffff; border-color:#ffffff; color:#171d36 !important; }
+.cta a { display:block; background-color:transparent; padding:14px 18px; border:2px solid #171d36; border-radius:28px; color:#171d36 !important; font-family: Arial, Helvetica, sans-serif; font-size:14px; font-weight:bold; line-height:20px; text-align:center; text-decoration:none; word-wrap:break-word; overflow-wrap:break-word; }
+.cta-light a { background-color:transparent; border-color:#ffffff; color:#ffffff !important; }
 .legal p { margin:0 0 14px; }
 @media screen and (max-width:599px) {
   .shell { width:100% !important; }
@@ -42,11 +42,11 @@ singleline,multiline { display:block; }
 .social-icon-link:focus { outline:2px solid #526a93; }
 /* Fine outline offers a button edge even against a client-forced black backdrop.
    Text and background colours can still be transformed by the email client. */
-.cta a { outline:1px solid #8292ad; outline-offset:0; }
+.cta a { outline:0; }
 /* OS-aware dark mode. Some email clients ignore these rules and force their own inversion. */
 @media (prefers-color-scheme: dark) {
   .light-asset { display:none !important;max-height:0 !important;width:0 !important;height:0 !important;overflow:hidden !important; }
-  .dark-asset { display:block !important;max-height:none !important;height:auto !important;overflow:visible !important; }
+  .dark-asset { display:block !important;max-height:none !important;width:auto !important;height:auto !important;overflow:visible !important; }
   .dark-hero { width:100% !important;max-width:600px !important; }
   .dark-contact-icon { width:22px !important;max-width:22px !important; }
   .dark-social-icon { width:26px !important;max-width:26px !important; }
@@ -55,7 +55,7 @@ singleline,multiline { display:block; }
   .dm-intro h1, .dm-intro h2, .dm-intro p, .dm-benefits h2,
   .dm-benefits p, .dm-visit h2, .dm-visit h3, .dm-visit p,
   .dm-visit a, .dm-visit td { color:#e4e9f1 !important; }
-  .dm-intro .cta a { background-color:#334b7b !important; border-color:#334b7b !important; color:#ffffff !important; }
+  .dm-intro .cta a { background-color:transparent !important; border-color:#ffffff !important; color:#ffffff !important; }
   .dm-benefits .dm-benefit-bar { background-color:#283758 !important; }
   .dm-benefits .benefit-title { color:#ffffff !important; }
   .dm-visit .dm-rule { background-color:#60718b !important; }
@@ -70,14 +70,15 @@ singleline,multiline { display:block; }
   /* Keep the closing winter panel and CTA high-contrast in both modes. */
   .closing-bg { background-color:#171d36 !important; color:#ffffff !important; }
   .closing-bg h2, .closing-bg p { color:#ffffff !important; }
-  .closing-bg .cta-light a { background-color:#ffffff !important; border-color:#ffffff !important; color:#171d36 !important; }
+  .closing-bg .cta-light a { background-color:transparent !important; border-color:#ffffff !important; color:#ffffff !important; }
 }
 /* Opportunistic Outlook.com/app dark-mode class hook; actual client behaviour requires test. */
 [data-ogsc] .light-asset { display:none !important;max-height:0 !important;width:0 !important;height:0 !important; }
-[data-ogsc] .dark-asset { display:block !important;max-height:none !important;height:auto !important;overflow:visible !important; }
+[data-ogsc] .dark-asset { display:block !important;max-height:none !important;width:auto !important;height:auto !important;overflow:visible !important; }
 [data-ogsc] .dark-hero { width:100% !important;max-width:600px !important; }
 [data-ogsc] .dark-contact-icon { width:22px !important;max-width:22px !important; }
 [data-ogsc] .dark-social-icon { width:26px !important;max-width:26px !important; }
+/* In classic Outlook the non-MSO conditional wrapper removes all dark variants. */
 [data-ogsc] .dm-outer { background-color:#10141c !important; }
 [data-ogsc] .shell, [data-ogsc] .dm-intro, [data-ogsc] .dm-benefits, [data-ogsc] .dm-visit { background-color:#1a202b !important; }
 [data-ogsc] .dm-intro h1, [data-ogsc] .dm-intro h2, [data-ogsc] .dm-intro p,
@@ -86,7 +87,8 @@ singleline,multiline { display:block; }
 [data-ogsc] .dm-visit a, [data-ogsc] .dm-visit td { color:#e4e9f1 !important; }
 [data-ogsc] .dm-benefits .dm-benefit-bar { background-color:#283758 !important; }
 [data-ogsc] .dm-benefits .benefit-title { color:#ffffff !important; }
-[data-ogsc] .dm-intro .cta a { background-color:#334b7b !important; border-color:#334b7b !important; color:#ffffff !important; }
+[data-ogsc] .dm-intro .cta a { background-color:transparent !important; border-color:#ffffff !important; color:#ffffff !important; }
+[data-ogsc] .closing-bg .cta-light a { background-color:transparent !important; border-color:#ffffff !important; color:#ffffff !important; }
 [data-ogsc] .dm-visit .dm-address { background-color:#242e3f !important; }
 [data-ogsc] .dm-visit .dm-rule, [data-ogsc] .dm-legal .dm-rule { background-color:#60718b !important; }
 [data-ogsc] .dm-legal { background-color:#202633 !important; color:#d9e0ea !important; }
@@ -103,7 +105,7 @@ singleline,multiline { display:block; }
 <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
 <table role="presentation" class="shell dm-surface" width="600" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width:100%;max-width:600px;background-color:#ffffff;">
 <!-- HEADER: logo is incorporated in the single editable hero asset. -->
-<tr><td bgcolor="#171d36" style="background-color:#171d36;"><img editable="true" label="Hero artwork including Pinkstones logo — light mode" class="light-asset" src="images/winter-wrapped-up/hero.png" width="600" alt="Pinkstones Used Car Centre — WINTER WRAPPED UP" border="0" style="display:block;border:0;width:100%;max-width:600px;height:auto;"><img editable="true" label="Hero artwork including Pinkstones logo — dark mode" class="dark-asset dark-hero" src="images/winter-wrapped-up/hero-dark.png" width="600" alt="Pinkstones Used Car Centre — WINTER WRAPPED UP" border="0" style="display:none;max-height:0;width:0;height:0;overflow:hidden;mso-hide:all;border:0;"></td></tr>
+<tr><td bgcolor="#171d36" style="background-color:#171d36;"><img editable="true" label="Hero artwork including Pinkstones logo — light mode" class="light-asset" src="images/winter-wrapped-up/hero.png" width="600" alt="Pinkstones Used Car Centre — WINTER WRAPPED UP" border="0" style="display:block;border:0;width:100%;max-width:600px;height:auto;"><!--[if !mso]><!--><span class="dark-asset" style="display:none;max-height:0;width:0;height:0;overflow:hidden;mso-hide:all;"><img editable="true" label="Hero artwork including Pinkstones logo — dark mode" class="dark-hero" src="images/winter-wrapped-up/hero-dark.png" width="600" alt="Pinkstones Used Car Centre — WINTER WRAPPED UP" border="0" style="display:block;border:0;width:100%;max-width:600px;height:auto;"></span><!--<![endif]--></td></tr>
 <!-- INTRODUCTION -->
 <tr><td class="pad dm-intro" style="padding:28px 40px 34px;font-family: Arial, Helvetica, sans-serif;">
 <multiline label="Personalised greeting"><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#171d36;">Hi [firstname,fallback=there],</p></multiline>
@@ -113,7 +115,7 @@ singleline,multiline { display:block; }
 <multiline label="Campaign dates"><p style="margin:16px 0 20px;font-size:15px;line-height:24px;color:#171d36;"><strong>2nd – 30th November 2026</strong></p></multiline>
 <multiline label="Introduction"><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">The temperature isn't the only thing dropping this November!</p><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">Our <strong>Winter Wrapped Up</strong> event has arrived at Pinkstones Used Car Centre, and we've reduced prices across a specially selected range of quality used cars.</p><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">Whether you're looking for a practical runaround, a family SUV or simply fancy a change, there's never been a better time to take a look at what's waiting for you.</p><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">And because we believe a great deal should come with a little something extra, we've wrapped up two fantastic benefits for you to choose from.</p></multiline>
 <div style="padding-top:8px;"><table role="presentation" align="center" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:440px;"><tr><td class="cta" align="center" style="font-family: Arial, Helvetica, sans-serif;">
-<multiline label="Primary CTA — label and link"><p style="margin:0;text-align:center;"><a href="https://www.pinkstones.uk/winter-wrapped-up" style="display:block;background-color:#171d36;border-top:14px solid #171d36;border-bottom:14px solid #171d36;border-left:18px solid #171d36;border-right:18px solid #171d36;border-radius:28px;color:#ffffff;font-family: Arial, Helvetica, sans-serif;font-size:14px;font-weight:bold;line-height:20px;text-align:center;text-decoration:none;word-wrap:break-word;overflow-wrap:break-word;">BROWSE WINTER WRAPPED UP CARS</a></p></multiline>
+<multiline label="Primary CTA — label and link"><p style="margin:0;text-align:center;"><a href="https://www.pinkstones.uk/winter-wrapped-up" style="display:block;background-color:transparent;padding:14px 18px;border:2px solid #171d36;border-radius:28px;color:#171d36;font-family: Arial, Helvetica, sans-serif;font-size:14px;font-weight:bold;line-height:20px;text-align:center;text-decoration:none;word-wrap:break-word;overflow-wrap:break-word;">BROWSE WINTER WRAPPED UP CARS</a></p></multiline>
 </td></tr></table></div>
 </td></tr>
 <!-- BENEFITS: stacked like the PDF; each description is associated with its offer. -->
@@ -136,7 +138,7 @@ singleline,multiline { display:block; }
 <multiline label="Closing paragraph one"><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#ffffff;">With reduced prices and your choice of added benefits, Winter Wrapped Up is the perfect opportunity to find your next car for less.</p></multiline>
 <multiline label="Closing paragraph two"><p style="margin:0 0 24px;font-size:15px;line-height:24px;color:#ffffff;">But don't leave your favourite out in the cold! These offers are available on selected used cars until <strong>30th November 2026</strong>, and once they're gone, they're gone.</p></multiline>
 <table role="presentation" align="center" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:440px;"><tr><td class="cta cta-light" align="center" style="font-family: Arial, Helvetica, sans-serif;">
-<multiline label="Final CTA — label and link"><p style="margin:0;text-align:center;"><a href="https://www.pinkstones.uk/winter-wrapped-up" style="display:block;background-color:#ffffff;border-top:14px solid #ffffff;border-bottom:14px solid #ffffff;border-left:18px solid #ffffff;border-right:18px solid #ffffff;border-radius:28px;color:#171d36;font-family: Arial, Helvetica, sans-serif;font-size:14px;font-weight:bold;line-height:20px;text-align:center;text-decoration:none;word-wrap:break-word;overflow-wrap:break-word;">BROWSE WINTER WRAPPED UP CARS</a></p></multiline>
+<multiline label="Final CTA — label and link"><p style="margin:0;text-align:center;"><a href="https://www.pinkstones.uk/winter-wrapped-up" style="display:block;background-color:transparent;padding:14px 18px;border:2px solid #ffffff;border-radius:28px;color:#ffffff;font-family: Arial, Helvetica, sans-serif;font-size:14px;font-weight:bold;line-height:20px;text-align:center;text-decoration:none;word-wrap:break-word;overflow-wrap:break-word;">BROWSE WINTER WRAPPED UP CARS</a></p></multiline>
 </td></tr></table>
 <div style="padding-top:22px;"><multiline label="Closing offer qualifier"><p style="margin:0;font-size:12px;line-height:19px;color:#e0e4ed;">Selected used vehicles only. Choose one benefit. Full terms and conditions apply.</p></multiline></div>
 </td></tr>
@@ -147,12 +149,32 @@ singleline,multiline { display:block; }
 
 <div style="padding-top:18px;"><multiline label="Visit supporting copy"><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">Don't let these deals stay out in the cold.</p><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">Pop into Pinkstones Used Car Centre and discover the vehicles included in our Winter Wrapped Up event. Whether you're ready to buy or simply looking for inspiration, we'd love to welcome you and show you what's available.</p></multiline></div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:24px;table-layout:fixed;"><tr>
-<td class="contact-cell" width="28%" valign="top" style="width:28%;padding:0 6px 12px 0;word-wrap:break-word;overflow-wrap:anywhere;font-family: Arial, Helvetica, sans-serif;color:#171d36;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;table-layout:fixed;"><tr><td style="padding-bottom:8px;"><img editable="true" label="Contact telephone icon — light mode" class="light-asset" src="images/winter-wrapped-up/phone.png" width="22" alt="Contact telephone icon" border="0" style="display:block;border:0;width:100%;max-width:22px;height:auto;"><img editable="true" label="Contact telephone icon — dark mode" class="dark-asset dark-contact-icon" src="images/winter-wrapped-up/phone-white.png" width="22" alt="" border="0" style="display:none;max-height:0;width:0;height:0;overflow:hidden;mso-hide:all;border:0;"></td></tr><tr><td style="font-size:12px;line-height:18px;"><multiline label="Contact telephone"><p style="margin:0;"><a href="tel:+441782711661" style="color:#171d36;text-decoration:none;">01782 711661</a></p></multiline></td></tr></table></td><td class="contact-cell" width="36%" valign="top" style="width:36%;padding:0 6px 12px 0;word-wrap:break-word;overflow-wrap:anywhere;font-family: Arial, Helvetica, sans-serif;color:#171d36;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;table-layout:fixed;"><tr><td style="padding-bottom:8px;"><img editable="true" label="Contact website icon — light mode" class="light-asset" src="images/winter-wrapped-up/web.png" width="22" alt="Contact website icon" border="0" style="display:block;border:0;width:100%;max-width:22px;height:auto;"><img editable="true" label="Contact website icon — dark mode" class="dark-asset dark-contact-icon" src="images/winter-wrapped-up/web-white.png" width="22" alt="" border="0" style="display:none;max-height:0;width:0;height:0;overflow:hidden;mso-hide:all;border:0;"></td></tr><tr><td style="font-size:12px;line-height:18px;"><multiline label="Contact website"><p style="margin:0;"><a href="https://www.pinkstones.uk/" style="color:#171d36;text-decoration:none;">www.pinkstones.uk</a></p></multiline></td></tr></table></td><td class="contact-cell" width="12%" valign="top" style="width:12%;padding:0 6px 12px 0;word-wrap:break-word;overflow-wrap:anywhere;font-family: Arial, Helvetica, sans-serif;color:#171d36;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;table-layout:fixed;"><tr><td style="padding:0 0 8px;font-family: Arial, Helvetica, sans-serif;"><a class="social-icon-link" href="https://www.facebook.com/" aria-label="Facebook" title="Facebook" style="display:inline-block;line-height:0;text-decoration:none;"><img editable="true" label="Facebook destination icon — light mode" class="light-asset" src="images/winter-wrapped-up/facebook.png" width="26" alt="Facebook destination icon" border="0" style="display:block;border:0;width:100%;max-width:26px;height:auto;"><img editable="true" label="Facebook destination icon — dark mode" class="dark-asset dark-social-icon" src="images/winter-wrapped-up/facebook-white.png" width="26" alt="" border="0" style="display:none;max-height:0;width:0;height:0;overflow:hidden;mso-hide:all;border:0;"></a></td></tr></table></td><td class="contact-cell" width="12%" valign="top" style="width:12%;padding:0 6px 12px 0;word-wrap:break-word;overflow-wrap:anywhere;font-family: Arial, Helvetica, sans-serif;color:#171d36;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;table-layout:fixed;"><tr><td style="padding:0 0 8px;font-family: Arial, Helvetica, sans-serif;"><a class="social-icon-link" href="https://www.linkedin.com/" aria-label="LinkedIn" title="LinkedIn" style="display:inline-block;line-height:0;text-decoration:none;"><img editable="true" label="LinkedIn destination icon — light mode" class="light-asset" src="images/winter-wrapped-up/linkedin.png" width="26" alt="LinkedIn destination icon" border="0" style="display:block;border:0;width:100%;max-width:26px;height:auto;"><img editable="true" label="LinkedIn destination icon — dark mode" class="dark-asset dark-social-icon" src="images/winter-wrapped-up/linkedin-white.png" width="26" alt="" border="0" style="display:none;max-height:0;width:0;height:0;overflow:hidden;mso-hide:all;border:0;"></a></td></tr></table></td><td class="contact-cell" width="12%" valign="top" style="width:12%;padding:0 6px 12px 0;word-wrap:break-word;overflow-wrap:anywhere;font-family: Arial, Helvetica, sans-serif;color:#171d36;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;table-layout:fixed;"><tr><td style="padding:0 0 8px;font-family: Arial, Helvetica, sans-serif;"><a class="social-icon-link" href="https://www.tiktok.com/" aria-label="TikTok" title="TikTok" style="display:inline-block;line-height:0;text-decoration:none;"><img editable="true" label="TikTok destination icon — light mode" class="light-asset" src="images/winter-wrapped-up/tiktok.png" width="26" alt="TikTok destination icon" border="0" style="display:block;border:0;width:100%;max-width:26px;height:auto;"><img editable="true" label="TikTok destination icon — dark mode" class="dark-asset dark-social-icon" src="images/winter-wrapped-up/tiktok-white.png" width="26" alt="" border="0" style="display:none;max-height:0;width:0;height:0;overflow:hidden;mso-hide:all;border:0;"></a></td></tr></table></td></tr></table>
+<td class="contact-cell" width="44%" valign="top" style="width:44%;padding:0 12px 12px 0;font-family: Arial, Helvetica, sans-serif;color:#171d36;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding:0 0 8px;">
+<img editable="true" label="Contact telephone icon — light mode" class="light-asset" src="images/winter-wrapped-up/phone.png" width="22" alt="Telephone" border="0" style="display:block;border:0;width:22px;height:auto;">
+<!--[if !mso]><!--><span class="dark-asset" style="display:none;max-height:0;width:0;height:0;overflow:hidden;mso-hide:all;"><img editable="true" label="Contact telephone icon — dark mode" class="dark-contact-icon" src="images/winter-wrapped-up/phone-white.png" width="22" alt="" border="0" style="display:block;border:0;width:22px;height:auto;"></span><!--<![endif]-->
+</td></tr><tr><td style="font-family: Arial, Helvetica, sans-serif;font-size:12px;line-height:18px;"><multiline label="Contact telephone"><p style="margin:0;"><a href="tel:+441782711661" style="color:#171d36;text-decoration:none;">01782 711661</a></p></multiline></td></tr></table>
+</td><td class="contact-cell" width="56%" valign="top" style="width:56%;padding:0 0 12px;font-family: Arial, Helvetica, sans-serif;color:#171d36;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding:0 0 8px;">
+<img editable="true" label="Contact website icon — light mode" class="light-asset" src="images/winter-wrapped-up/web.png" width="22" alt="Website" border="0" style="display:block;border:0;width:22px;height:auto;">
+<!--[if !mso]><!--><span class="dark-asset" style="display:none;max-height:0;width:0;height:0;overflow:hidden;mso-hide:all;"><img editable="true" label="Contact website icon — dark mode" class="dark-contact-icon" src="images/winter-wrapped-up/web-white.png" width="22" alt="" border="0" style="display:block;border:0;width:22px;height:auto;"></span><!--<![endif]-->
+</td></tr><tr><td style="font-family: Arial, Helvetica, sans-serif;font-size:12px;line-height:18px;"><multiline label="Contact website"><p style="margin:0;"><a href="https://www.pinkstones.uk/" style="color:#171d36;text-decoration:none;">www.pinkstones.uk</a></p></multiline></td></tr></table>
+</td></tr></table>
+<!-- Social icons are fixed template assets, not Campaign Monitor editable image fields:
+     prevents the editor moving social label/alt text into the separately editable sender address. -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:10px 0 20px;"><tr><td width="44" valign="middle" style="width:44px;padding:6px 12px 6px 0;font-family: Arial, Helvetica, sans-serif;">
+<a class="social-icon-link" href="https://www.facebook.com/" aria-label="Facebook" title="Facebook" style="display:inline-block;line-height:0;text-decoration:none;">
+<img class="light-asset" src="images/winter-wrapped-up/facebook.png" width="26" alt="Facebook" border="0" style="display:block;border:0;width:26px;height:auto;">
+<!--[if !mso]><!--><span class="dark-asset" style="display:none;max-height:0;width:0;height:0;overflow:hidden;mso-hide:all;"><img class="dark-social-icon" src="images/winter-wrapped-up/facebook-white.png" width="26" alt="" border="0" style="display:block;border:0;width:26px;height:auto;"></span><!--<![endif]-->
+</a></td><td width="44" valign="middle" style="width:44px;padding:6px 12px 6px 0;font-family: Arial, Helvetica, sans-serif;">
+<a class="social-icon-link" href="https://www.linkedin.com/" aria-label="LinkedIn" title="LinkedIn" style="display:inline-block;line-height:0;text-decoration:none;">
+<img class="light-asset" src="images/winter-wrapped-up/linkedin.png" width="26" alt="LinkedIn" border="0" style="display:block;border:0;width:26px;height:auto;">
+<!--[if !mso]><!--><span class="dark-asset" style="display:none;max-height:0;width:0;height:0;overflow:hidden;mso-hide:all;"><img class="dark-social-icon" src="images/winter-wrapped-up/linkedin-white.png" width="26" alt="" border="0" style="display:block;border:0;width:26px;height:auto;"></span><!--<![endif]-->
+</a></td><td width="44" valign="middle" style="width:44px;padding:6px 12px 6px 0;font-family: Arial, Helvetica, sans-serif;">
+<a class="social-icon-link" href="https://www.tiktok.com/" aria-label="TikTok" title="TikTok" style="display:inline-block;line-height:0;text-decoration:none;">
+<img class="light-asset" src="images/winter-wrapped-up/tiktok.png" width="26" alt="TikTok" border="0" style="display:block;border:0;width:26px;height:auto;">
+<!--[if !mso]><!--><span class="dark-asset" style="display:none;max-height:0;width:0;height:0;overflow:hidden;mso-hide:all;"><img class="dark-social-icon" src="images/winter-wrapped-up/tiktok-white.png" width="26" alt="" border="0" style="display:block;border:0;width:26px;height:auto;"></span><!--<![endif]-->
+</a></td><td style="font-size:0;line-height:0;">&nbsp;</td></tr></table>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td class="dm-rule" height="1" bgcolor="#171d36" style="height:1px;font-size:0;line-height:0;">&nbsp;</td></tr></table>
 <table role="presentation" class="dm-address" width="390" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:390px;margin-top:24px;background-color:#eff0f1;"><tr><td style="padding:26px;font-family: Arial, Helvetica, sans-serif;font-size:15px;line-height:23px;color:#30343c;">
 <h3 style="margin:0 0 14px;font-size:15px;line-height:23px;"><singleline label="Sender business name">PINKSTONES USED CAR CENTRE</singleline></h3>

@@ -93,3 +93,7 @@ On branch `fix/winter-wrapped-up-artwork-final`, GitHub Actions workflow `.githu
 - `scripts/validate-template.py` now asserts these requirements and creates browser-simulated `email-{width}-dark.png` previews at widths 800, 600, 375 and 320
 
 The earlier validation table relates to the historical integration commit. The new GitHub Actions workflow builds and validates the current branch; use its downloadable artifact. **No claim is made that Gmail iOS, Windows Outlook or Campaign Monitor will preserve all custom dark-mode CSS until a real send/client test has passed.**
+
+## Follow-up fixes: live Campaign Monitor / Outlook / Android feedback
+
+Campaign Monitor showed displaced social icon text and a missing sender address; Outlook previews showed both light and dark assets; Gmail Android dark-mode CTA backgrounds clashed with native forced-dark colours. New source isolates the social block from the address, removes Campaign Monitor editability from the social asset pairs to prevent editor interference, wraps all six dark variants with Outlook-safe conditional comments, and uses transparent outline-only CTA surfaces with white text/borders in CSS-supported dark mode. The validator checks the fixed postal address, exactly three social links with zero social image edit controls, 6 conditional dark wrappers, 2 unfilled CTA links and browser-simulated light/dark visibility. **These checks cannot replace a fresh Campaign Monitor import or actual Outlook/Gmail Android rendering tests.**
