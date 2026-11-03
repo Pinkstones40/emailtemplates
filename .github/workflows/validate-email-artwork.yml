@@ -4,6 +4,7 @@ on:
     branches:
       - fix/winter-wrapped-up-artwork-final
       - fix/winter-wrapped-up-dark-mode
+      - feature/winter-wrapped-up-dual-mode-images
   workflow_dispatch:
 
 permissions:
