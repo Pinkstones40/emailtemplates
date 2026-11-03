@@ -46,7 +46,7 @@ singleline,multiline { display:block; }
 /* OS-aware dark mode. Some email clients ignore these rules and force their own inversion. */
 @media (prefers-color-scheme: dark) {
   .light-asset { display:none !important;max-height:0 !important;width:0 !important;height:0 !important;overflow:hidden !important; }
-  .dark-asset { display:block !important;max-height:none !important;height:auto !important;overflow:visible !important; }
+  .dark-asset { display:block !important;max-height:none !important;width:auto !important;height:auto !important;overflow:visible !important; }
   .dark-hero { width:100% !important;max-width:600px !important; }
   .dark-contact-icon { width:22px !important;max-width:22px !important; }
   .dark-social-icon { width:26px !important;max-width:26px !important; }
@@ -74,7 +74,7 @@ singleline,multiline { display:block; }
 }
 /* Opportunistic Outlook.com/app dark-mode class hook; actual client behaviour requires test. */
 [data-ogsc] .light-asset { display:none !important;max-height:0 !important;width:0 !important;height:0 !important; }
-[data-ogsc] .dark-asset { display:block !important;max-height:none !important;height:auto !important;overflow:visible !important; }
+[data-ogsc] .dark-asset { display:block !important;max-height:none !important;width:auto !important;height:auto !important;overflow:visible !important; }
 [data-ogsc] .dark-hero { width:100% !important;max-width:600px !important; }
 [data-ogsc] .dark-contact-icon { width:22px !important;max-width:22px !important; }
 [data-ogsc] .dark-social-icon { width:26px !important;max-width:26px !important; }
