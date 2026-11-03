@@ -96,7 +96,11 @@ for platform in ('Facebook','LinkedIn','TikTok'):
  assert f'label="{platform} icon link"' not in SRC
  assert f'>{platform}</a>' not in SRC
 assert 'outline:1px solid #8292ad' not in SRC
-assert '.cta a { display:block; background-color:#171d36; padding:14px 18px; border:2px solid #171d36;' in SRC
+assert '.cta a { display:block; background-color:transparent; padding:14px 18px; border:2px solid #171d36;' in SRC
+assert '@media (prefers-color-scheme: light)' in SRC
+assert '.dm-intro .cta a { background-color:#171d36 !important; border-color:#171d36 !important; color:#ffffff !important; }' in SRC
+assert SRC.count('class="dm-benefit-bar"')==2
+assert SRC.count('<table role="presentation" align="center" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">')==2
 assert '.dm-intro .cta a { background-color:transparent !important; border-color:#ffffff !important; color:#ffffff !important; }' in SRC
 assert '.cta-light a { background-color:transparent; border-color:#ffffff; color:#ffffff !important; }' in SRC
 assert 'background-color:#334b7b !important' not in SRC
@@ -179,6 +183,11 @@ with sync_playwright() as pw:
   assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).backgroundColor')=='rgb(23, 29, 54)'
   assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)'
   assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).borderTopWidth')=='2px'
+  for benefit in page.locator('.dm-benefit-bar').all():
+   group=benefit.locator('table[align="center"]')
+   assert group.count()==1
+   g=group.bounding_box(); b=benefit.bounding_box()
+   assert abs((g['x']+g['width']/2)-(b['x']+b['width']/2))<2, ('benefit group not centred',width)
   assert page.locator('unsubscribe').is_visible()
   assert page.locator('unsubscribe').inner_text()=='Unsubscribe'
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'), width
@@ -192,6 +201,9 @@ with sync_playwright() as pw:
    a.scroll_into_view_if_needed(); box=a.bounding_box()
    for dx,dy in [(2,box['height']/2),(box['width']-2,box['height']/2),(box['width']/2,2),(box['width']/2,box['height']-2)]:
     assert page.evaluate('(p)=>!!document.elementFromPoint(p.x,p.y)?.closest("a")', {'x':box['x']+dx,'y':box['y']+dy})
+  # Mimic an email client ignoring all @media rules: transparent primary CTA
+  # is the fallback, so Android forced-dark need not invert an inline navy fill.
+  page.add_style_tag(content='@media all { }')
   page.evaluate('scrollTo(0,0)')
   page.screenshot(path=str(ROOT/f'previews/email-{width}.png'),full_page=True)
   for a in ctas.all():
