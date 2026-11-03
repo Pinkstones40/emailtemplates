@@ -74,6 +74,8 @@ assert 'class="pad dm-intro"' in SRC and 'class="pad dm-benefits"' in SRC
 assert 'class="pad dm-visit"' in SRC and 'class="pad legal dm-legal"' in SRC
 assert 'color:#df429c' not in SRC, 'Old pink divider/OR treatment unexpectedly present'
 assert 'label="Benefit choice separator">OR</singleline>' in SRC
+assert SRC.count('width="30" valign="middle" style="width:30px;padding:0 8px 0 0;vertical-align:middle;"')==2, 'Telephone and website icons must be inline with text'
+assert SRC.count('<td valign="middle" style="vertical-align:middle;font-family: Arial, Helvetica, sans-serif;font-size:12px;line-height:18px;"><multiline label="Contact ')==2, 'Contact copy must align horizontally with its icon'
 assert '<p style="margin:16px 0 16px;text-align:center;font-size:20px;line-height:28px;font-weight:bold;color:#555961;"><singleline label="Benefit choice separator">OR</singleline></p>' in SRC, 'OR must have equal 16px above and below'
 assert 'color:#555961;"><singleline label="Benefit choice separator">' in SRC
 assert 'bgcolor="#df429c"' not in SRC, 'Pink divider still present'
@@ -204,6 +206,10 @@ with sync_playwright() as pw:
    assert group.count()==1
    g=group.bounding_box(); b=benefit.bounding_box()
    assert abs((g['x']+g['width']/2)-(b['x']+b['width']/2))<2, ('benefit group not centred',width)
+  for contact in page.locator('.contact-cell').all():
+   icon=contact.locator('img.light-asset').first.bounding_box()
+   label=contact.locator('multiline').first.bounding_box()
+   assert abs((icon['y']+icon['height']/2)-(label['y']+label['height']/2))<10, ('contact icon and text not vertically aligned',width)
   assert page.locator('unsubscribe').is_visible()
   assert page.locator('unsubscribe').inner_text()=='Unsubscribe'
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'), width
