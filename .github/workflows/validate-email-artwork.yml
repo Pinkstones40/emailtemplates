@@ -8,6 +8,7 @@ on:
       - fix/campaign-monitor-social-image-nesting
       - fix/winter-wrapped-up-outlook-address-android
       - fix/winter-wrapped-up-light-mode-navy-cta
+      - fix/winter-offer-alignment-android-cta
   workflow_dispatch:
 
 permissions:
