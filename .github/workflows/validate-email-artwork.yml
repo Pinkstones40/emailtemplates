@@ -6,6 +6,7 @@ on:
       - fix/winter-wrapped-up-dark-mode
       - feature/winter-wrapped-up-dual-mode-images
       - fix/campaign-monitor-social-image-nesting
+      - fix/winter-wrapped-up-outlook-address-android
   workflow_dispatch:
 
 permissions:
