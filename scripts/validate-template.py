@@ -79,7 +79,8 @@ for item in manifest['assets']:
  original=subprocess.check_output(['git','-C',str(ROOT),'show',manifest['source_commit']+':'+item['path']])
  assert data==original, 'Supplied artwork was modified'
 assert not re.search(r'(?:src|background)=["\']images/(?!winter-wrapped-up/)',SRC)
-assert 'background.png' not in SRC, 'User selected the solid navy closing section'
+assert SRC.count('background="images/winter-wrapped-up/background.png"') == 1, 'Original closing artwork must appear once'
+assert 'background-color:#171d36' in SRC, 'Closing needs safe navy fallback'
 # Compare every existing editable text region and its link destinations with the
 # fetched main snapshot. This protects approved copy even outside the phrase list.
 class Copy(HTMLParser):
