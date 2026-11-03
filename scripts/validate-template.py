@@ -59,6 +59,10 @@ assert len(p.images)==9 and len(set(p.images))==9
 assert 'logo-a.png' not in SRC and 'position:absolute' not in SRC and '<v:' not in SRC
 assert '<script' not in SRC and 'javascript:' not in SRC
 assert SRC.count('<unsubscribe>Unsubscribe</unsubscribe>')==1
+assert 'background="images/winter-wrapped-up/background.png"' in SRC
+assert "background-image:url('images/winter-wrapped-up/background.png')" in SRC
+assert SRC.index('label="Warranty benefit heading"') < SRC.index('label="Servicing benefit description"')
+assert SRC.index('label="Servicing benefit description"') < SRC.index('label="Warranty benefit description"')
 assert '<webversion ' in SRC and '[First Name]' not in SRC
 assert all(f.strip().removesuffix('!important').strip()=='Arial, Helvetica, sans-serif' for f in re.findall(r'font-family:\s*([^;}]+)',SRC))
 for unwanted in ['Toyota','MY25','PCP','APR','£44,355']: assert unwanted not in text
