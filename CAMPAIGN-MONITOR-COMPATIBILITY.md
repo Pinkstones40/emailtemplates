@@ -1,6 +1,7 @@
 # Campaign Monitor compatibility assessment
 
-Status: blocked on official documentation access; implementation not approved.
+Status: experimental foreground-overlay and single-link CTA proof of concept added;
+Campaign Monitor editor and received Outlook tests pending. Full build not approved.
 
 ## Evidence from the resumed verification
 
@@ -113,3 +114,64 @@ Proceed with the build only when the required editor behaviour is supported.
 If verification establishes an overlay or CTA editing limitation, obtain a
 decision on the concrete alternatives above before implementing a compromise.
 No template, placeholder asset package or client-validated preview is complete.
+
+
+## Proof-of-concept follow-up
+
+Read both review documents from fetched `origin/main` before development. The
+existing review above is retained as historical context; the local experiment is
+now in [poc/README.md](poc/README.md), with exact import/edit/send acceptance steps.
+
+### Evidence and sources
+
+All five URLs supplied by the user were retried through the configured proxy.
+Every request failed with `Tunnel connection failed: 403 Forbidden` before any
+article was retrieved:
+
+- https://www.campaignmonitor.com/create/editable-content/
+- https://www.campaignmonitor.com/create/
+- https://help.campaignmonitor.com/articles/Knowledge/import-custom-coded-email-templates
+- https://help.campaignmonitor.com/articles/Knowledge/custom-template-content-editor
+- https://help.campaignmonitor.com/articles/Knowledge/email-builder-background-images
+
+The user's supplied documentation summary confirms editable foreground images and
+text; that is attributed evidence, not an independently retrieved quotation.
+No current source confirms a shared image/VML binding or CTA/VML synchronisation.
+Email-builder background-image documentation must not be assumed to describe the
+custom-template editor. These URLs are research references, not proof of an
+untested behaviour. Personalisation syntax remains pending verification; this
+small experiment does not add personalisation or terms sections.
+
+### Independently verified local findings
+
+`poc/check-local.py` executed in installed Chromium at 600, 375 and 320px:
+
+- Two different foreground image assets exist, each with its own editable label.
+- The zero-height wrapper visually overlays the logo within the hero bounds at
+  each width. Each source can change independently in the local DOM.
+- There is exactly one CTA anchor, with the requested initial destination. There
+  is no VML button, duplicated CTA destination or background image reference.
+- A locally edited long CTA label and destination preserve one anchor and do not
+  cause horizontal overflow. The initial button is at least 44px tall.
+- Browser screenshots were generated before/after replacements. DOM modification
+  is a fixture simulation, not Campaign Monitor editing. Python HTMLParser checks
+  selected structural invariants; it is not a full HTML standards validator.
+
+### Unresolved limitations and decision
+
+The foreground overlap avoids background-source synchronisation entirely, but
+uses max-height/visible-overflow/stacking behaviour that may fail in classic
+Outlook or be changed by Campaign Monitor. It is deliberately experimental.
+A layout where the logo becomes a separate row is a failed test, not an approved
+fallback. No inference of Outlook support follows from Chromium results.
+
+The CTA uses one styled link inside `multiline`; whether the editor preserves its
+styles and exposes convenient link editing is unverified. Its square-corner
+Outlook rendering and clickable borders must be inspected in a real received
+message. No VML editing capability is claimed. The original candidate syntax table
+is not promoted to fully verified status by the local browser checks.
+
+No Campaign Monitor import, editor save/reopen cycle, tracked send, received MIME
+inspection or real email-client test has been performed. The test matrix and
+alternatives with trade-offs are in `poc/README.md`. Full campaign development
+remains gated on these tests or approval of a documented alternative.

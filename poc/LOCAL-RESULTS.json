@@ -1,0 +1,26 @@
+{
+  "renderer": "Chromium (not Outlook or Campaign Monitor)",
+  "checks": [
+    {
+      "width": 600,
+      "overlay_geometry": "pass",
+      "horizontal_overflow": "none",
+      "single_link_and_long_label": "pass",
+      "local_independent_src_changes": "pass"
+    },
+    {
+      "width": 375,
+      "overlay_geometry": "pass",
+      "horizontal_overflow": "none",
+      "single_link_and_long_label": "pass",
+      "local_independent_src_changes": "pass"
+    },
+    {
+      "width": 320,
+      "overlay_geometry": "pass",
+      "horizontal_overflow": "none",
+      "single_link_and_long_label": "pass",
+      "local_independent_src_changes": "pass"
+    }
+  ]
+}
