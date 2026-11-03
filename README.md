@@ -2,7 +2,7 @@
 
 Complete coded email for **2–30 November 2026**, prepared for import and testing.
 Includes the approved campaign copy, two independent CTA links, two benefits with
-an explicit OR, a dealership/contact section, flexible terms and Campaign Monitor
+an explicit OR, a dealership/contact section, original snowy closing artwork, flexible terms and Campaign Monitor
 footer tags. No vehicle listings or unrelated Toyota finance copy are included.
 
 **Status:** local validation passed. No Campaign Monitor import/edit round trip or
@@ -14,7 +14,7 @@ checks below before a live send. This is the full template, not the earlier POC.
 - `winter-wrapped-up.html`: custom editable template source.
 - `winter-wrapped-up-campaign-monitor.zip`: portable delivery bundle containing
   that HTML at its root and all ten original PNGs under `images/winter-wrapped-up/`
-  (nine rendered images plus the unused background).
+  (nine editable foreground images plus the fixed decorative closing background).
 - `winter-wrapped-up-images.zip`: image-only archive for an import screen that
   asks for the HTML file and image ZIP separately.
 
@@ -37,8 +37,9 @@ Do not import `poc/overlay-and-cta.html`; it is an obsolete experiment.
 2. The original benefit icons, dealership photo, phone/web icons and all three
    supplied social icons (Facebook, LinkedIn, TikTok) are individually replaceable.
    Follow `IMAGE-SPECS.md`; retain proportions and native sizing. No original
-   graphic has been modified. Per your choice, the closing section stays solid
-   navy and `background.png` is retained only as an unused packaged source asset.
+   graphic has been modified. The closing section now uses the original `background.png` snowflake artwork,
+   with a solid navy fallback for clients such as classic Outlook. This decorative
+   background is a fixed HTML/CSS asset rather than an editable image region.
 3. Use each labelled heading or rich-text region to edit its content.
    `EDITABLE-REGIONS.md` lists all 45 regions. Keep the explicit OR and one-benefit
    eligibility message. Avoid pasting document formatting; paste plain text first.
@@ -191,3 +192,7 @@ Repackage after any HTML/image changes: `python3 scripts/package-template.py`.
 Run `python3 scripts/validate-template.py` with Python, Playwright and Chromium
 installed (`CHROMIUM_PATH` can choose the executable). This regenerates local
 screenshots/results; it does not send mail or contact Campaign Monitor.
+
+## Artwork fidelity adjustment (3 November 2026)
+
+The original Adobe XD PDF has been reviewed. The winter illustration behind the closing CTA is restored from `images/winter-wrapped-up/background.png`, and both benefit bars now precede their supporting descriptions, matching the reference design's section order. The previously approved full campaign copy, OR separator, two editable CTA links, Arial fallback and exact `<unsubscribe>Unsubscribe</unsubscribe>` tag remain intact. For reliable accessibility and edits, all closing text remains actual HTML, not baked into the background. The background is fixed for the campaign; classic Outlook may display the intentionally solid navy fallback rather than the snowflake texture. This requires a real Outlook test before release.
