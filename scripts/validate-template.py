@@ -2,7 +2,7 @@
 from pathlib import Path
 from html.parser import HTMLParser
 from zipfile import ZipFile
-import json, re, shutil, os, functools, http.server, threading
+import json, re, shutil, os, functools, http.server, threading, hashlib, subprocess
 from playwright.sync_api import sync_playwright
 ROOT=Path(__file__).resolve().parents[1]
 SRC=(ROOT/'winter-wrapped-up.html').read_text()
@@ -21,6 +21,8 @@ class Structure(HTMLParser):
   if tag=='img':
    assert a.get('editable')=='true' and a.get('alt') and a.get('width')
    assert (ROOT/a['src']).is_file(); self.images.append(a['src'])
+  if tag=='unsubscribe':
+   assert not any(t in ('singleline','multiline') for t in self.stack), 'Unsubscribe must be outside editable regions'
   if tag=='a':
    assert any(t in ('singleline','multiline') for t in self.stack), 'Uneditable ordinary link'
    self.links.append(a['href'])
@@ -56,13 +58,45 @@ assert SRC.count('BROWSE WINTER WRAPPED UP CARS')==2
 assert len(p.images)==9 and len(set(p.images))==9
 assert 'logo-a.png' not in SRC and 'position:absolute' not in SRC and '<v:' not in SRC
 assert '<script' not in SRC and 'javascript:' not in SRC
-assert '<unsubscribe ' in SRC and '<webversion ' in SRC and '[First Name]' not in SRC
+assert SRC.count('<unsubscribe>Unsubscribe</unsubscribe>')==1
+assert '<webversion ' in SRC and '[First Name]' not in SRC
+assert all(f.strip().removesuffix('!important').strip()=='Arial, Helvetica, sans-serif' for f in re.findall(r'font-family:\s*([^;}]+)',SRC))
 for unwanted in ['Toyota','MY25','PCP','APR','£44,355']: assert unwanted not in text
 assert all(int(h)<=2 for h in re.findall(r'(?:;|")height:\s*(\d+)px',SRC)), 'Fixed text height'
 assert all(int(h)<=2 for h in re.findall(r'<td\b[^>]* height="(\d+)"',SRC)), 'Fixed cell height'
 # Two CTA anchors and one separate full-terms link share the campaign URL.
 assert p.links.count('https://www.pinkstones.uk/winter-wrapped-up')==3
-for name,expected in [('winter-wrapped-up-campaign-monitor.zip',['winter-wrapped-up.html']+p.images),('winter-wrapped-up-images.zip',p.images)]:
+manifest=json.loads((ROOT/'ARTWORK-MANIFEST.json').read_text())
+assets=[item['path'] for item in manifest['assets']]
+assert len(assets)==10 and set(p.images)==set(assets)-{'images/winter-wrapped-up/background.png'}
+for item in manifest['assets']:
+ data=(ROOT/item['path']).read_bytes()
+ assert len(data)==item['bytes'] and hashlib.sha256(data).hexdigest()==item['sha256']
+ original=subprocess.check_output(['git','-C',str(ROOT),'show',manifest['source_commit']+':'+item['path']])
+ assert data==original, 'Supplied artwork was modified'
+assert not re.search(r'(?:src|background)=["\']images/(?!winter-wrapped-up/)',SRC)
+assert 'background.png' not in SRC, 'User selected the solid navy closing section'
+# Compare every existing editable text region and its link destinations with the
+# fetched main snapshot. This protects approved copy even outside the phrase list.
+class Copy(HTMLParser):
+ def __init__(self): super().__init__(); self.active=None; self.regions={}
+ def handle_starttag(self,tag,attrs):
+  a=dict(attrs)
+  if tag in ('singleline','multiline'):
+   self.active=a['label']; self.regions[self.active]={'text':[],'links':[]}
+  if tag=='a' and self.active: self.regions[self.active]['links'].append(a['href'])
+ def handle_data(self,data):
+  if self.active: self.regions[self.active]['text'].append(data)
+ def handle_endtag(self,tag):
+  if tag in ('singleline','multiline'): self.active=None
+base=Copy(); current=Copy()
+base.feed(subprocess.check_output(['git','-C',str(ROOT),'show',manifest['source_commit']+':winter-wrapped-up.html'],text=True))
+current.feed(SRC)
+for label,content in base.regions.items():
+ assert label in current.regions
+ assert ' '.join(''.join(content['text']).split())==' '.join(''.join(current.regions[label]['text']).split()), ('Approved copy changed',label)
+ assert content['links']==current.regions[label]['links'], ('Approved link changed',label)
+for name,expected in [('winter-wrapped-up-campaign-monitor.zip',['winter-wrapped-up.html']+assets),('winter-wrapped-up-images.zip',assets)]:
  with ZipFile(ROOT/name) as z:
   assert z.testzip() is None and sorted(z.namelist())==sorted(expected)
   for item in expected: assert z.read(item)==(ROOT/item).read_bytes()
@@ -77,6 +111,9 @@ with sync_playwright() as pw:
   page.goto(f'http://127.0.0.1:{server.server_port}/winter-wrapped-up.html')
   page.locator('img').evaluate_all('(is)=>Promise.all(is.map(i=>i.decode()))')
   assert page.locator('img').evaluate_all('(is)=>is.every(i=>i.naturalWidth>0)')
+  assert page.locator('img').evaluate_all('(is)=>is.every(i=>{let b=i.getBoundingClientRect();return b.width<=i.naturalWidth+1 && Math.abs(b.width/b.height-i.naturalWidth/i.naturalHeight)<0.02})'), 'Image distortion or enlargement'
+  assert page.locator('unsubscribe').is_visible()
+  assert page.locator('unsubscribe').inner_text()=='Unsubscribe'
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'), width
   assert page.locator('.shell').bounding_box()['width']<=600
   # Preview fixture only: simulate a missing first name. This does not validate CM.
@@ -110,6 +147,6 @@ with sync_playwright() as pw:
   page.close()
  browser.close()
 server.shutdown()
-report={'scope':'Local source/package checks and Chromium; no Campaign Monitor or email-client test', 'editable_regions':len(p.regions),'images':len(p.images),'content_phrases_checked':len(required),'structural_checks':'passed (strict tag stack including custom tags; not W3C validation)','packages':'passed exact archive membership and bytes','responsive':results}
+report={'scope':'Local source/package checks and Chromium; no Campaign Monitor or email-client test', 'editable_regions':len(p.regions),'images':len(p.images),'packaged_original_assets':len(assets),'original_asset_hashes':'all ten match fetched main','approved_text_and_links':'all existing text regions match fetched main','font_stack':'Arial, Helvetica, sans-serif','unsubscribe':'exact native tag outside editable regions','content_phrases_checked':len(required),'structural_checks':'passed (strict tag stack including custom tags; not W3C validation)','packages':'passed exact archive membership and bytes','responsive':results}
 (ROOT/'LOCAL-VALIDATION.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))

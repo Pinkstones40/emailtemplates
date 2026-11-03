@@ -9,48 +9,49 @@ editing in the actual Campaign Monitor account remain to be confirmed by import.
 | --- | --- | --- |
 | 1 | Inbox preview | Heading / single-line copy (`singleline`) |
 | 2 | Hero artwork including Pinkstones logo | Editable image (`img editable="true"`) |
-| 3 | Hero headline | Heading / single-line copy (`singleline`) |
-| 4 | Header snow divider | Editable image (`img editable="true"`) |
-| 5 | Personalised greeting | Rich text and links (`multiline`) |
-| 6 | Supporting headline | Heading / single-line copy (`singleline`) |
-| 7 | Campaign dates | Rich text and links (`multiline`) |
-| 8 | Introduction | Rich text and links (`multiline`) |
-| 9 | Primary CTA — label and link | Rich text and links (`multiline`) |
-| 10 | Benefits section heading | Heading / single-line copy (`singleline`) |
-| 11 | Servicing benefit heading | Heading / single-line copy (`singleline`) |
-| 12 | Servicing benefit heading icon | Editable image (`img editable="true"`) |
-| 13 | Servicing benefit description | Rich text and links (`multiline`) |
-| 14 | Benefit choice separator | Heading / single-line copy (`singleline`) |
-| 15 | Warranty benefit heading | Heading / single-line copy (`singleline`) |
-| 16 | Warranty benefit heading icon | Editable image (`img editable="true"`) |
-| 17 | Warranty benefit description | Rich text and links (`multiline`) |
-| 18 | Benefit eligibility note | Rich text and links (`multiline`) |
-| 19 | Closing headline | Heading / single-line copy (`singleline`) |
-| 20 | Closing paragraph one | Rich text and links (`multiline`) |
-| 21 | Closing paragraph two | Rich text and links (`multiline`) |
-| 22 | Final CTA — label and link | Rich text and links (`multiline`) |
-| 23 | Closing offer qualifier | Rich text and links (`multiline`) |
-| 24 | Dealership photograph | Editable image (`img editable="true"`) |
-| 25 | Visit heading | Heading / single-line copy (`singleline`) |
-| 26 | Visit supporting copy | Rich text and links (`multiline`) |
-| 27 | Contact telephone icon | Editable image (`img editable="true"`) |
-| 28 | Contact telephone | Rich text and links (`multiline`) |
-| 29 | Contact website icon | Editable image (`img editable="true"`) |
-| 30 | Contact website | Rich text and links (`multiline`) |
-| 31 | LinkedIn destination icon | Editable image (`img editable="true"`) |
-| 32 | LinkedIn destination | Rich text and links (`multiline`) |
-| 33 | TikTok destination icon | Editable image (`img editable="true"`) |
-| 34 | TikTok destination | Rich text and links (`multiline`) |
-| 35 | Sender business name | Heading / single-line copy (`singleline`) |
-| 36 | Sender postal address | Rich text and links (`multiline`) |
-| 37 | Sender telephone | Rich text and links (`multiline`) |
-| 38 | Terms and conditions heading | Heading / single-line copy (`singleline`) |
-| 39 | Offer terms and conditions | Rich text and links (`multiline`) |
-| 40 | Full promotional terms link | Rich text and links (`multiline`) |
-| 41 | Sender identification | Rich text and links (`multiline`) |
-| 42 | Safe sender message | Rich text and links (`multiline`) |
-| 43 | Privacy link | Rich text and links (`multiline`) |
-| 44 | Copyright | Heading / single-line copy (`singleline`) |
+| 3 | Personalised greeting | Rich text and links (`multiline`) |
+| 4 | Hero headline | Heading / single-line copy (`singleline`) |
+| 5 | Supporting headline | Heading / single-line copy (`singleline`) |
+| 6 | Campaign dates | Rich text and links (`multiline`) |
+| 7 | Introduction | Rich text and links (`multiline`) |
+| 8 | Primary CTA — label and link | Rich text and links (`multiline`) |
+| 9 | Benefits section heading | Heading / single-line copy (`singleline`) |
+| 10 | Servicing benefit heading | Heading / single-line copy (`singleline`) |
+| 11 | Servicing benefit heading icon | Editable image (`img editable="true"`) |
+| 12 | Servicing benefit description | Rich text and links (`multiline`) |
+| 13 | Benefit choice separator | Heading / single-line copy (`singleline`) |
+| 14 | Warranty benefit heading | Heading / single-line copy (`singleline`) |
+| 15 | Warranty benefit heading icon | Editable image (`img editable="true"`) |
+| 16 | Warranty benefit description | Rich text and links (`multiline`) |
+| 17 | Benefit eligibility note | Rich text and links (`multiline`) |
+| 18 | Closing headline | Heading / single-line copy (`singleline`) |
+| 19 | Closing paragraph one | Rich text and links (`multiline`) |
+| 20 | Closing paragraph two | Rich text and links (`multiline`) |
+| 21 | Final CTA — label and link | Rich text and links (`multiline`) |
+| 22 | Closing offer qualifier | Rich text and links (`multiline`) |
+| 23 | Dealership photograph | Editable image (`img editable="true"`) |
+| 24 | Visit heading | Heading / single-line copy (`singleline`) |
+| 25 | Visit supporting copy | Rich text and links (`multiline`) |
+| 26 | Contact telephone icon | Editable image (`img editable="true"`) |
+| 27 | Contact telephone | Rich text and links (`multiline`) |
+| 28 | Contact website icon | Editable image (`img editable="true"`) |
+| 29 | Contact website | Rich text and links (`multiline`) |
+| 30 | Facebook destination icon | Editable image (`img editable="true"`) |
+| 31 | Facebook destination | Rich text and links (`multiline`) |
+| 32 | LinkedIn destination icon | Editable image (`img editable="true"`) |
+| 33 | LinkedIn destination | Rich text and links (`multiline`) |
+| 34 | TikTok destination icon | Editable image (`img editable="true"`) |
+| 35 | TikTok destination | Rich text and links (`multiline`) |
+| 36 | Sender business name | Heading / single-line copy (`singleline`) |
+| 37 | Sender postal address | Rich text and links (`multiline`) |
+| 38 | Sender telephone | Rich text and links (`multiline`) |
+| 39 | Terms and conditions heading | Heading / single-line copy (`singleline`) |
+| 40 | Offer terms and conditions | Rich text and links (`multiline`) |
+| 41 | Full promotional terms link | Rich text and links (`multiline`) |
+| 42 | Sender identification | Rich text and links (`multiline`) |
+| 43 | Safe sender message | Rich text and links (`multiline`) |
+| 44 | Privacy link | Rich text and links (`multiline`) |
+| 45 | Copyright | Heading / single-line copy (`singleline`) |
 
 ## Link editing and system tags
 
@@ -68,14 +69,25 @@ editing in the actual Campaign Monitor account remain to be confirmed by import.
 - `Inbox preview` is hidden in the message and may not be selectable in the visual
   editor. Campaign settings provide the final subject/preview; see README for the
   hidden-default limitation. It is implemented with a labelled `singleline`.
-- `<unsubscribe>` and `<webversion>` are system-generated links, not ordinary
-  marketer-editable destination URLs. They must remain intact. Their labels are
+- `<unsubscribe>Unsubscribe</unsubscribe>` and `<webversion>` are system-generated links, not ordinary
+  marketer-editable destination URLs. They must remain intact, outside editable regions. Their labels are
   deliberately stable service text; Campaign Monitor resolves the destinations.
-- The hero and snow divider contain no campaign headlines, dates or terms. All
-  essential copy appears in the regions listed above. Decorative rules, table
+- The original hero contains the campaign headline as supplied image pixels;
+  the entire image is replaceable. The preserved `Hero headline` HTML region is
+  now in the introduction, so the campaign title remains editable and readable
+  with images blocked. Editing this region does not change words inside the PNG.
+  There is no separate snow-divider region. Dates, descriptions, CTA labels and
+  legal copy remain editable HTML. Decorative rules, table
   colours and typography are template styling, not marketing-content regions.
 
 Local source checks verify unique region labels, no nested editable regions,
 all nine image controls, all ordinary links inside rich-text regions, and required
 content coverage. They do not prove that an account's editor preserves these
-controls after saving. Check all 44 regions after import and save/reopen.
+controls after saving. Check all 45 regions after import and save/reopen.
+
+
+All nine displayed graphics now reference `images/winter-wrapped-up/*.png` and
+have independent image controls. The original `background.png` is intentionally
+unused and has no control, per the user's choice to retain solid navy. The new
+Facebook link is an independent rich-text region; its generic platform URL needs
+confirmation before sending, as do the existing social/privacy placeholders.

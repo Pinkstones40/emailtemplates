@@ -6,14 +6,15 @@ an explicit OR, a dealership/contact section, flexible terms and Campaign Monito
 footer tags. No vehicle listings or unrelated Toyota finance copy are included.
 
 **Status:** local validation passed. No Campaign Monitor import/edit round trip or
-real email-client send has been performed. Replace placeholders and complete the
+real email-client send has been performed. Original artwork is integrated; complete the
 checks below before a live send. This is the full template, not the earlier POC.
 
 ## What to upload
 
 - `winter-wrapped-up.html`: custom editable template source.
 - `winter-wrapped-up-campaign-monitor.zip`: portable delivery bundle containing
-  that HTML at its root and all nine referenced assets under `images/`.
+  that HTML at its root and all ten original PNGs under `images/winter-wrapped-up/`
+  (nine rendered images plus the unused background).
 - `winter-wrapped-up-images.zip`: image-only archive for an import screen that
   asks for the HTML file and image ZIP separately.
 
@@ -26,22 +27,26 @@ relative `images/` paths. Name the saved template and create a draft campaign fr
 it. Review import warnings and verify the labelled regions are recognised.
 Do not import `poc/overlay-and-cta.html`; it is an obsolete experiment.
 
-## Replace imagery and edit copy
+## Original artwork and copy editing
 
-1. Click the hero image's image-edit control and replace it with the designer's
-   approved **single combined artwork/logo asset**. There is no separate logo.
-2. Replace the snow divider, both benefit icons, dealership photo and four contact/
-   social icons individually. Follow `IMAGE-SPECS.md`; keep proportions and
-   update alt descriptions where the editor allows. Check the saved draft at mobile
-   width. No image embeds essential campaign copy.
+1. The supplied `hero.png` is already integrated intact: branding, campaign title
+   and snow edge are baked into the graphic. Replace the entire image using
+   **Hero artwork including Pinkstones logo**. There is no separate logo overlay.
+   Its embedded words are image content, not editable HTML. The existing editable
+   campaign title is retained in the introduction for images-off readability.
+2. The original benefit icons, dealership photo, phone/web icons and all three
+   supplied social icons (Facebook, LinkedIn, TikTok) are individually replaceable.
+   Follow `IMAGE-SPECS.md`; retain proportions and native sizing. No original
+   graphic has been modified. Per your choice, the closing section stays solid
+   navy and `background.png` is retained only as an unused packaged source asset.
 3. Use each labelled heading or rich-text region to edit its content.
-   `EDITABLE-REGIONS.md` lists all 44 regions. Keep the explicit OR and one-benefit
+   `EDITABLE-REGIONS.md` lists all 45 regions. Keep the explicit OR and one-benefit
    eligibility message. Avoid pasting document formatting; paste plain text first.
 4. Update the visit copy, telephone, website, sender name/address and footer details.
    Phone number, website, social URLs, privacy URL and full-terms link use editable
    rich-text anchors; select the link and use the editor's link control.
 
-**Pre-send links to confirm:** LinkedIn and TikTok currently point to their generic
+**Pre-send links to confirm:** Facebook, LinkedIn and TikTok currently point to their generic
 platform homepages because verified Pinkstones profile URLs were not supplied.
 Replace these with the actual profiles (or remove the social content during template
 maintenance). The privacy link currently points to `https://www.pinkstones.uk/`;
@@ -101,7 +106,8 @@ one record with a name and one without using an actual campaign send. Local
 screenshots substitute the fallback only as an illustration; they do not execute
 Campaign Monitor personalisation. Blank and whitespace-only values also need testing.
 
-`<unsubscribe>` and `<webversion>` are Campaign Monitor system tags. Leave them
+`<unsubscribe>Unsubscribe</unsubscribe>` (visible, outside editable regions) and
+`<webversion>` are Campaign Monitor system tags. Leave them
 intact; Campaign Monitor generates recipient-specific URLs. They are not normal
 static links in a browser. Do not replace unsubscribe with a hard-coded URL.
 Sender identification and postal address are editable above these links.
@@ -128,7 +134,10 @@ PDF layout retained: navy winter header, pink underline, white introduction,
 stacked navy benefit bars with pink icons, navy closing message/white CTA,
 full-width dealership photograph, contact/social information, address card and
 legal footer. The revised brief permits a combined logo/hero asset. Campaign
-headlines remain HTML beneath that artwork and above an editable snow divider.
+headline remains editable HTML in the introduction. The supplied 600 × 350 hero
+already contains the snow edge and the graphic campaign title, so the generated
+snow divider and separate navy headline band have been removed. This uses the
+original artwork without cropping it or repeating the large header title band.
 Descriptions sit directly below their respective benefits to clarify the choice.
 
 The closing panel uses solid navy rather than a fixed snowflake background to
@@ -162,7 +171,7 @@ Before live sending:
    view URLs, sender/address and landing/terms/privacy/social links. Verify the
    received text alternative and edit Campaign Monitor's generated plain-text
    version if necessary. Confirm final campaign dates and one-benefit terms.
-6. Have marketing/legal approve final imagery, links and terms; then schedule using
+6. Have marketing/legal approve imagery, links and terms; then schedule using
    the account's normal sending workflow. No email has been sent by this task.
 
 Official reference URLs are recorded in `CAMPAIGN-MONITOR-COMPATIBILITY.md`.
@@ -172,9 +181,12 @@ review gates are superseded by the latest combined-hero development instruction.
 
 ## Maintaining the files
 
-Use the existing checkout; no worktree is needed. Optional placeholder regeneration
-requires Pillow: `python3 scripts/generate-placeholder-assets.py`. It overwrites
-placeholder files, so do not run it over designer-supplied final assets.
+Use the existing checkout; no worktree is needed. The placeholder generator has
+been removed. Original PNGs are maintained under `images/winter-wrapped-up/`;
+do not regenerate or overwrite them. Their exact source provenance and hashes
+are recorded in `ARTWORK-MANIFEST.json`. Validation requires the recorded source
+commit to be available locally so it can check original bytes and preserve every
+previous editable text region and link destination.
 Repackage after any HTML/image changes: `python3 scripts/package-template.py`.
 Run `python3 scripts/validate-template.py` with Python, Playwright and Chromium
 installed (`CHROMIUM_PATH` can choose the executable). This regenerates local

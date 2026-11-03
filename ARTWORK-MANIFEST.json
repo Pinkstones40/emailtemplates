@@ -1,0 +1,56 @@
+{
+  "source_commit": "31e8417bdddab7836ba4e87501b01b47874f6cd4",
+  "source": "origin/main",
+  "assets": [
+    {
+      "path": "images/winter-wrapped-up/background.png",
+      "sha256": "201045abbb54e5f96c50995f10d5564916c82439ff6cf84622c817fa805ea266",
+      "bytes": 100606
+    },
+    {
+      "path": "images/winter-wrapped-up/dealership.png",
+      "sha256": "a1c7e5ef66b2261cf5e7a7aa9a1825bc5083d7983ac8981a4d8031906f3ada8a",
+      "bytes": 294685
+    },
+    {
+      "path": "images/winter-wrapped-up/facebook.png",
+      "sha256": "11b32710c5c59aeb94ef914e38f3abf37a8144ef5fb26c86d7bd8eb7e4d6962f",
+      "bytes": 1266
+    },
+    {
+      "path": "images/winter-wrapped-up/hero.png",
+      "sha256": "0498157ca9cab231a0f329362f82c4251faad4351bb73a61c895b854da55453b",
+      "bytes": 175782
+    },
+    {
+      "path": "images/winter-wrapped-up/linkedin.png",
+      "sha256": "7ee922c66e3b807ee04738f3fde0636959b409fbf2317fafaeb037353a9c2ee0",
+      "bytes": 1330
+    },
+    {
+      "path": "images/winter-wrapped-up/phone.png",
+      "sha256": "4bab91f8c7190511dd68dcc8615ed241cdbeeb55d69c44eece99920a3923cf36",
+      "bytes": 525
+    },
+    {
+      "path": "images/winter-wrapped-up/servicing.png",
+      "sha256": "94708adedc0484ccbf8d2690218f8ce60a171bdfed5f003d487b5d2bb99f7cfd",
+      "bytes": 1034
+    },
+    {
+      "path": "images/winter-wrapped-up/tiktok.png",
+      "sha256": "ce39d406f663bbcc3da8f71023eff3a85efe6be8b9f930c23970cecbd0804115",
+      "bytes": 1422
+    },
+    {
+      "path": "images/winter-wrapped-up/warranty.png",
+      "sha256": "c979e7ace07a2cd9fe805fcee121d5d62418d85ecc5742ed19152cbe2687b0c5",
+      "bytes": 1184
+    },
+    {
+      "path": "images/winter-wrapped-up/web.png",
+      "sha256": "25cfaaa5ada8fbd87b9d6831437974cf5a9138736a486086b98fcb3f27b7cb14",
+      "bytes": 749
+    }
+  ]
+}
