@@ -13,7 +13,7 @@ checks below before a live send. This is the full template, not the earlier POC.
 
 - `winter-wrapped-up.html`: custom editable template source.
 - `winter-wrapped-up-campaign-monitor.zip`: portable delivery bundle containing
-  that HTML at its root and all ten original PNGs under `images/winter-wrapped-up/`
+  that HTML at its root and all ten original PNGs plus six dark-mode variants under `images/winter-wrapped-up/`
   (nine editable foreground images plus the fixed decorative closing background).
 - `winter-wrapped-up-images.zip`: image-only archive for an import screen that
   asks for the HTML file and image ZIP separately.
@@ -41,7 +41,7 @@ Do not import `poc/overlay-and-cta.html`; it is an obsolete experiment.
    with a solid navy fallback for clients such as classic Outlook. This decorative
    background is a fixed HTML/CSS asset rather than an editable image region.
 3. Use each labelled heading or rich-text region to edit its content.
-   `EDITABLE-REGIONS.md` lists all 45 regions. Keep the explicit OR and one-benefit
+   `EDITABLE-REGIONS.md` lists the current named regions. Keep the explicit OR and one-benefit
    eligibility message. Avoid pasting document formatting; paste plain text first.
 4. Update the visit copy, telephone, website, sender name/address and footer details.
    Phone number, website, social URLs, privacy URL and full-terms link use editable
@@ -208,3 +208,20 @@ The hero and designer-supplied winter imagery are **not recoloured or swapped**.
 **Important compatibility limitation:** Different email clients implement dark mode differently. Apple Mail and other media-query-capable clients should follow the custom dark scheme; Gmail and some classic Outlook/Windows variants perform their own inversion or ignore the query, so an exact OS-matched dark version cannot be guaranteed everywhere. Inspect actual received messages in light/dark Outlook (classic and new), Apple Mail/iOS Mail, Gmail (iOS and Android) and Outlook.com. Browser screenshots are simulations, not email-client acceptance.
 
 The GitHub Actions build artifact contains `previews/email-600-dark.png`, `previews/email-375-dark.png`, `previews/email-320-dark.png` (and 800px), alongside the light-mode previews and rebuilt Campaign Monitor ZIPs. The native unsubscribe tag and independently editable CTA anchors are unchanged.
+
+
+## Paired artwork and social icon-only links (3 November 2026)
+
+The light image is the **default** on clients without dark-mode media-query support, including Gmail Android forced dark mode. Supporting Apple Mail and other clients switch to the corresponding white/dark artwork through `prefers-color-scheme: dark`. The template includes both `<img editable>` sources, with distinct labels such as **Hero artwork including Pinkstones logo — light mode** and **Hero artwork including Pinkstones logo — dark mode**. This is intended to let a marketer replace both variants independently, but **we must verify both controls actually appear in Campaign Monitor**: hidden dark images can be hard or impossible to select in some custom-template editors. If the hidden images are not exposed, a controlled HTML/template update is required.
+
+The supplied six new image variants are `hero-dark.png`, `phone-white.png`, `web-white.png`, `facebook-white.png`, `linkedin-white.png`, `tiktok-white.png`. All ten original assets remain unchanged. Dark variants are packaged in the image ZIP along with the originals.
+
+Facebook, LinkedIn and TikTok are **icon-only clickable links**, each with an accessible link name and two theme variants inside one rich-text link region. The underlying destinations are still generic platform URLs until the correct Pinkstones accounts are supplied; do not send with these placeholders. Phone and website keep their visible contact details.
+
+### Android forced dark and buttons
+
+There is **no Android-specific media query** or colour-lock trick. Gmail Android's automatic darkening is accepted; the default light hero/icons remain in place where theme image swap CSS is ignored. Both existing CTAs keep their single, independently editable anchor destinations and have a subtle outline to maintain a visible edge where supported when the client darkens the canvas to near-black. Android may also recolour border, background or text, so verify real Gmail Android test sends at both dark and light device themes. The outline is a best-effort aid, **not** a guarantee that Gmail will preserve the colour.
+
+### Critical import and client test
+
+Import the current GitHub Actions regenerated HTML + image ZIP. In Campaign Monitor edit/save/reopen both hero variants, both phone/web variant pairs, and all six social icon images plus their **one link per social network**. Verify the hidden dark variants remain linked after replacing the light variant and that the social icons are still clickable. Test Android Gmail forced dark, Apple Mail dark mode, Gmail light mode, and Outlook clients. Don't send the campaign until this test passes.
