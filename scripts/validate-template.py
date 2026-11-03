@@ -96,7 +96,8 @@ for platform in ('Facebook','LinkedIn','TikTok'):
  assert f'label="{platform} icon link"' not in SRC
  assert f'>{platform}</a>' not in SRC
 assert 'outline:1px solid #8292ad' not in SRC
-assert '.cta a { display:block; background-color:transparent; padding:14px 18px; border:2px solid #171d36;' in SRC
+assert '.cta a { display:block; background-color:#171d36; padding:14px 18px; border:2px solid #171d36;' in SRC
+assert '.dm-intro .cta a { background-color:transparent !important; border-color:#ffffff !important; color:#ffffff !important; }' in SRC
 assert '.cta-light a { background-color:transparent; border-color:#ffffff; color:#ffffff !important; }' in SRC
 assert 'background-color:#334b7b !important' not in SRC
 assert '<!--[if !mso]><!-->' in SRC and SRC.count('<!--[if !mso]><!-->')==6
@@ -175,7 +176,8 @@ with sync_playwright() as pw:
   assert 'ST6 6PJ' in page.locator('.dm-address').inner_text()
   for unwanted_social_text in ('Facebook','LinkedIn','TikTok'):
    assert unwanted_social_text not in page.locator('.dm-address').inner_text()
-  assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).backgroundColor')=='rgba(0, 0, 0, 0)'
+  assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).backgroundColor')=='rgb(23, 29, 54)'
+  assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)'
   assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).borderTopWidth')=='2px'
   assert page.locator('unsubscribe').is_visible()
   assert page.locator('unsubscribe').inner_text()=='Unsubscribe'
