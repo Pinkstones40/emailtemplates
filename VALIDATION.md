@@ -1,7 +1,6 @@
 # Full-template validation
 
-Scope: `winter-wrapped-up.html` and its two upload packages. Local checks completed
-successfully; no Campaign Monitor account import, editor test, sending operation,
+Scope: `winter-wrapped-up.html` and its two upload packages. The results below are from the prior artwork integration, **before this new closing-background and benefit-order change**. A GitHub Actions workflow on this branch regenerates packages and previews and reruns checks. Until that workflow completes successfully, treat the prior passing results and committed ZIPs/previews as historical only. No Campaign Monitor account import, editor test, sending operation,
 Litmus/Email on Acid run or Microsoft Outlook rendering was performed.
 
 Machine-readable results: `LOCAL-VALIDATION.json`. Reproduce using
@@ -22,7 +21,7 @@ loopback server and never opens CTA URLs or sends mail.
 | Approved content regression | Every existing editable text region and its link URLs matches the fetched main snapshot; only the native unsubscribe label changes as requested; Facebook adds a new editable social link |
 | Font stack | Every HTML font-family declaration uses `Arial, Helvetica, sans-serif`; image pixels are unchanged |
 | Image geometry | Each image retains its natural aspect ratio in Chromium at every tested width and is never enlarged beyond its native width |
-| ZIPs | Delivery archive contains exact HTML and all ten original PNGs; image-only archive contains all ten PNGs, including the unused background; CRC, membership and byte equality checked |
+| ZIPs | Delivery archive contains exact HTML and all ten original PNGs; image-only archive contains all ten PNGs, including the closing decorative background; CRC, membership and byte equality checked |
 | Responsive layout | Chromium at viewport widths 800, 600, 375 and 320px; shell no wider than 600px; no horizontal overflow |
 | Button geometry | Both CTAs at least 44px tall; browser hit testing at the midpoint of each of four borders resolves to the anchor |
 | Longer content | Both CTA labels lengthened and URLs changed in the local DOM; warranty heading lengthened; terms replaced by 16 long paragraphs; no horizontal overflow or legal/footer overlap |
@@ -51,13 +50,13 @@ Retained: navy winter header/logo placement and white snow edge, white intro wit
 pink underline, stacked navy benefit bars with pink icons, closing navy/white CTA,
 full-width dealership image, contact/social row, address card and grey legal footer.
 Changed for editable content/readability: the existing editable campaign title in
-the introduction below the intact original hero, explicit OR and benefit-associated descriptions, solid navy closing panel,
+the introduction below the intact original hero, explicit OR and benefit-associated descriptions, original snowy closing-panel background with navy fallback,
 legible dark legal text, and stacked contact entries on small mobile viewports.
 All generated placeholder artwork is replaced by untouched original PNG exports
 fetched from GitHub. The original hero incorporates its logo, title and snow edge.
 The supplied photograph is used without cropping; no attempt was made to alter
 it to match a different photograph in the PDF. Facebook joins the contact/social
-row. `background.png` stays unused by explicit user choice.
+row. `background.png` has now been restored to the closing section by the user's updated instruction; source-only packaging is no longer its purpose.
 
 ## Outstanding import and real-client validation
 
@@ -80,3 +79,7 @@ Use the detailed checklist in README. Required outcomes before live use:
    Replace generic Facebook/LinkedIn/TikTok/privacy destinations and confirm full terms URL.
 
 No unsupported overlay work remains necessary under the new combined-hero brief.
+
+## New branch verification gate
+
+On branch `fix/winter-wrapped-up-artwork-final`, GitHub Actions workflow `.github/workflows/validate-email-artwork.yml` rebuilds both ZIPs and regenerates previews before running structural and responsive validation. Its uploaded `winter-wrapped-up-campaign-monitor-tested` artifact is the authoritative package for the new HTML once the workflow has passed. The ZIPs and preview PNGs already stored in this branch were generated before these changes and must not be treated as current until rebuilt. Actual Campaign Monitor and Outlook acceptance remains outstanding.
