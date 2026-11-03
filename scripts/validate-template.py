@@ -100,6 +100,10 @@ assert '.cta a { display:block; background-color:transparent; padding:14px 18px;
 assert '@media (prefers-color-scheme: light)' in SRC
 assert '.dm-intro .cta a { background-color:#171d36 !important; border-color:#171d36 !important; color:#ffffff !important; }' in SRC
 assert SRC.count('class="dm-benefit-bar"')==2
+assert '<font color="#ffffff"><span class="cta-white-label" style="color:#ffffff !important;text-decoration:none !important;">' in SRC
+assert '<span class="cta-primary-label" style="color:#171d36;text-decoration:none;">' in SRC
+assert '.dm-intro .cta a .cta-primary-label { color:#ffffff !important; }' in SRC
+assert '.cta-light a, .cta-light a span, .cta-light a font { color:#ffffff !important; text-decoration:none !important; }' in SRC
 assert SRC.count('<table role="presentation" align="center" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">')==2
 assert '.dm-intro .cta a { background-color:transparent !important; border-color:#ffffff !important; color:#ffffff !important; }' in SRC
 assert '.cta-light a { background-color:transparent; border-color:#ffffff; color:#ffffff !important; }' in SRC
@@ -183,6 +187,8 @@ with sync_playwright() as pw:
   assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).backgroundColor')=='rgb(23, 29, 54)'
   assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)'
   assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).borderTopWidth')=='2px'
+  assert page.locator('.cta-primary-label').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('primary label on navy not white',width)
+  assert page.locator('.cta-white-label').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('closing label not white',width)
   for benefit in page.locator('.dm-benefit-bar').all():
    group=benefit.locator('table[align="center"]')
    assert group.count()==1
@@ -235,6 +241,8 @@ with sync_playwright() as pw:
    assert button.evaluate('(e)=>getComputedStyle(e).backgroundColor')=='rgba(0, 0, 0, 0)', ('dark button fill',width)
    assert button.evaluate('(e)=>getComputedStyle(e).borderTopColor')=='rgb(255, 255, 255)', ('dark white border',width)
    assert button.evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('dark white text',width)
+  assert dark.locator('.cta-primary-label').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('dark primary CTA label',width)
+  assert dark.locator('.cta-white-label').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('dark closing CTA label',width)
   assert '499 Newcastle Road' in dark.locator('.dm-address').inner_text()
   dark_bg=dark.locator('.shell').evaluate('(e)=>getComputedStyle(e).backgroundColor')
   assert dark_bg == 'rgb(26, 32, 43)', ('dark shell',width,dark_bg)
