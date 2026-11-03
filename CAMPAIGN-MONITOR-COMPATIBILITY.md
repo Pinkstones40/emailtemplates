@@ -1,5 +1,14 @@
 # Campaign Monitor compatibility assessment
 
+> Artwork finalisation: original Adobe XD PNGs are now integrated from GitHub's
+> `images/winter-wrapped-up/`. Source hashes are in `ARTWORK-MANIFEST.json`.
+> The original hero includes the title, logo and snow edge, so generated header
+> pieces are removed; the editable HTML title is preserved in the introduction.
+> The user explicitly chose solid navy closing copy with `background.png` unused.
+> Native `<unsubscribe>Unsubscribe</unsubscribe>` is visible outside editable
+> regions. See README/IMAGE-SPECS/VALIDATION for current deliverables; older
+> placeholder and overlay notes below describe superseded iterations.
+
 > Current implementation update: the user's complete-build brief supersedes the
 > independent-logo overlay requirement and the prior full-build gate. The logo
 > is now incorporated in one editable hero asset. The complete template is

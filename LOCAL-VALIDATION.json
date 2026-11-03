@@ -1,7 +1,12 @@
 {
   "scope": "Local source/package checks and Chromium; no Campaign Monitor or email-client test",
-  "editable_regions": 44,
+  "editable_regions": 45,
   "images": 9,
+  "packaged_original_assets": 10,
+  "original_asset_hashes": "all ten match fetched main",
+  "approved_text_and_links": "all existing text regions match fetched main",
+  "font_stack": "Arial, Helvetica, sans-serif",
+  "unsubscribe": "exact native tag outside editable regions",
   "content_phrases_checked": 23,
   "structural_checks": "passed (strict tag stack including custom tags; not W3C validation)",
   "packages": "passed exact archive membership and bytes",

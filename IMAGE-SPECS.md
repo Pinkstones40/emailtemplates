@@ -1,55 +1,60 @@
-# Designer handover — Winter Wrapped Up
+# Original artwork inventory — Winter Wrapped Up
 
-All supplied images are labelled placeholders, not approved Pinkstones branding
-or photography. Replace every asset before a live send. Use RGB/sRGB, normal PNG
-or JPEG (not CMYK, SVG, WebP or animated assets). Export at 2× displayed dimensions
-unless listed otherwise; do not increase pixel dimensions without a reason.
-The marketing team replaces these through the Campaign Monitor image controls.
+All artwork comes directly from `origin/main`, under `images/winter-wrapped-up/`.
+No supplied PNG has been redrawn, cropped, recompressed, converted or overwritten.
+`ARTWORK-MANIFEST.json` records the fetched source commit, byte sizes and SHA-256
+hashes. Validation compares all ten files with that Git snapshot.
 
-| File / editor label | Purpose | Export pixels / aspect ratio | Display size at 600px email | Format | Suggested maximum |
-| --- | --- | --- | --- | --- | --- |
-| `hero-with-logo.png` / Hero artwork including Pinkstones logo | Navy winter artwork **with the Pinkstones logo already incorporated** | 1200 × 260 / 60:13 | 600 × 130px | PNG or high-quality JPEG if transparency is not needed | 150KB |
-| `snow-divider.png` / Header snow divider | White/pale-grey snow drift from navy to white | 1200 × 120 / 10:1 | 600 × 60px | PNG, opaque | 40KB |
-| `servicing-icon.png` / Servicing benefit heading icon | Pink servicing symbol on navy | 200 × 200 / 1:1 | Up to 54 × 54px | Transparent PNG | 25KB |
-| `warranty-icon.png` / Warranty benefit heading icon | Pink warranty symbol on navy | 200 × 200 / 1:1 | Up to 54 × 54px | Transparent PNG | 25KB |
-| `dealership.jpg` / Dealership photograph | Full-width Pinkstones site photograph | 1200 × 720 / 5:3 | 600 × 360px | JPEG | 200KB |
-| `phone-icon.png` / Contact telephone icon | Telephone symbol | 80 × 80 / 1:1 | Up to 26 × 26px | Transparent PNG | 10KB |
-| `website-icon.png` / Contact website icon | Globe symbol | 80 × 80 / 1:1 | Up to 26 × 26px | Transparent PNG | 10KB |
-| `linkedin-icon.png` / LinkedIn destination icon | Approved LinkedIn symbol | 80 × 80 / 1:1 | Up to 26 × 26px | Transparent PNG | 10KB |
-| `tiktok-icon.png` / TikTok destination icon | Approved TikTok symbol | 80 × 80 / 1:1 | Up to 26 × 26px | Transparent PNG | 10KB |
+| Original file | Native pixels | Aspect ratio | Display at desktop email width | Campaign Monitor image label |
+| --- | --- | --- | --- | --- |
+| `hero.png` | 600 × 350 | 12:7 | 600 × 350px | Hero artwork including Pinkstones logo |
+| `dealership.png` | 600 × 335 | 120:67 | 600 × 335px | Dealership photograph |
+| `servicing.png` | 41 × 40 | 41:40 | Up to 41 × 40px | Servicing benefit heading icon |
+| `warranty.png` | 38 × 38 | 1:1 | Up to 38 × 38px | Warranty benefit heading icon |
+| `phone.png` | 22 × 22 | 1:1 | Up to 22 × 22px | Contact telephone icon |
+| `web.png` | 22 × 22 | 1:1 | Up to 22 × 22px | Contact website icon |
+| `facebook.png` | 38 × 38 | 1:1 | Up to 26 × 26px | Facebook destination icon |
+| `linkedin.png` | 38 × 38 | 1:1 | Up to 26 × 26px | LinkedIn destination icon |
+| `tiktok.png` | 38 × 38 | 1:1 | Up to 26 × 26px | TikTok destination icon |
+| `background.png` | 600 × 382 | 300:191 | Background behind closing offer panel | Fixed CSS/table background; not a Campaign Monitor editable-image region |
 
-The hero export differs from the original provisional 1200 × 600 size deliberately:
-its logo and decorative artwork occupy the top strip, while the campaign headline
-is editable HTML immediately underneath on the same navy colour. The snow divider
-finishes the header. Do not place a second logo elsewhere or add a separate overlay.
-This follows the new combined-logo requirement while keeping essential copy editable.
+The approved design PDF shows the original navy snowflake illustration behind the closing promotional panel. The supplied `background.png` is now used as that decorative background without modification. A solid navy `bgcolor` is retained as the classic Outlook/images-off fallback. Unlike `<img editable>`, a CSS/table background is **not independently replaceable in the Campaign Monitor editor**; replacing this decorative image requires editing the HTML and rebuilding the packages. The original hero and other nine foreground images remain separately editable.
 
-Use `#171D36` for navy edges, `#DF429C` for pink accents and `#FFFFFF` for white.
-Match the hero's bottom edge and divider's top edge exactly to navy so they meet
-the HTML band without seams. The divider's bottom edge must be white.
+## Header composition
 
-## Safe areas and mobile
+The supplied hero already contains the Pinkstones logo, the campaign title and
+the complete snow edge. It replaces both generated header graphics and their
+separate headline band. The PNG is used intact as one editable image; there is
+no separate logo overlay or generated snow divider. Campaign Monitor can replace
+the entire graphic; it cannot edit words baked into its pixels.
 
-- Hero: logo approximately within x=810–1140, y=40–130 of the 1200 × 260 export.
-  Keep at least 40px export-space from the top/right edges. Check the real logo
-  remains legible at 320px email width (the image scales to about 320 × 69px).
-  Use a larger logo within the same safe area if needed. Artwork is uncropped.
-- The placeholder text and synthetic Pinkstones lettering are identification only;
-  replace them with the approved logo and final decorative artwork. Include no
-  campaign headline, dates, offer description, legal text or CTA in any image.
-- Icons: keep drawing inside the central 160 × 160px of the 200px benefit canvas,
-  and central 64 × 64px of contact/social canvases. Retain transparency.
-- Photograph: place the important dealership frontage within the central 1000 ×
-  600px. Avoid small signs as essential information; all contact details are HTML.
-- There is no mobile crop or `object-fit`. Images scale with their original ratio.
-  Export a consistent ratio on replacement; a different ratio changes section height.
-  Do not replace an icon with a wide photo or use a full original hero containing
-  the campaign title: the title would be duplicated and cease to be editable.
+The existing editable `Hero headline` text is retained in the white introduction,
+before “Prices down. Extras included.”, keeping the approved campaign title
+available as HTML and when images are blocked. Editing that HTML region does not
+change the title in the hero artwork; replace the hero if both must change.
 
-The closing promotional panel uses a solid navy background rather than the PDF's
-snowflake texture. This keeps all copy editable and removes CSS/VML background
-replacement and synchronisation requirements. There is no hidden decorative
-background image that marketing would need to maintain separately.
+## Responsive sizing and future replacements
 
-Recommended total final image transfer: under about 500KB where quality permits.
-Replace image alt text with useful descriptions through the editor where available.
+- Full-width hero and photograph use a 600px width attribute, fluid CSS width and
+  automatic height. At 375px they display at approximately 375 × 218.75px and
+  375 × 209.38px. At 320px: approximately 320 × 186.67px and 320 × 178.67px.
+- No image uses `object-fit`, clipping, CSS crop or forced square dimensions.
+  The non-square servicing icon retains its 41:40 ratio. Icons are not enlarged
+  beyond their native dimensions. Original transparency is preserved.
+- Keep the same aspect ratio and safe-area composition on replacement. The source
+  hero logo/title and snow edge must remain visible at 320px; the entire image
+  scales rather than crops. Do not stretch an existing export to make a 2× asset.
+- If a designer supplies future high-density exports, use 1200 × 700 for the hero,
+  1200 × 670 for photography, 82 × 80 for servicing, 76 × 76 for warranty,
+  44 × 44 for phone/web and at least 52 × 52 for social icons. These are future
+  export suggestions, not changes made to the supplied artwork.
+- Use PNG with sRGB/RGB and retain transparency for the icons. Keep important
+  photography centred and avoid essential small text within replacement photos.
+  All campaign dates, benefit descriptions, CTAs and legal text remain HTML.
+- Target no more than about 200KB for a future hero and 350KB for photography,
+  and under 10KB per small icon where quality permits. The current files are
+  retained exactly, irrespective of size. Their nine rendered originals total
+  about 478KB; the closing background adds about 101KB to the delivery archives.
+
+All HTML text uses `Arial, Helvetica, sans-serif`. Typography already baked into
+supplied artwork is preserved; it has not been redrawn to match the HTML font.
