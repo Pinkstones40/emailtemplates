@@ -1,5 +1,13 @@
 # Campaign Monitor compatibility assessment
 
+> Current implementation update: the user's complete-build brief supersedes the
+> independent-logo overlay requirement and the prior full-build gate. The logo
+> is now incorporated in one editable hero asset. The complete template is
+> `winter-wrapped-up.html`; see `README.md`, `IMAGE-SPECS.md`, `EDITABLE-REGIONS.md`
+> and `LOCAL-VALIDATION.json`. Historic overlay findings below are retained for
+> context and do not constrain the authorised combined-hero build. Campaign
+> Monitor import/edit and real-client sends remain unperformed.
+
 Status: blocked on official documentation access; implementation not approved.
 
 ## Evidence from the resumed verification
@@ -113,3 +121,26 @@ Proceed with the build only when the required editor behaviour is supported.
 If verification establishes an overlay or CTA editing limitation, obtain a
 decision on the concrete alternatives above before implementing a compromise.
 No template, placeholder asset package or client-validated preview is complete.
+
+
+## Complete-template implementation (supersedes POC)
+
+- One editable `hero-with-logo.png` replaces both experimental overlay images.
+  No overlapping CSS, background-image editing or VML synchronisation is needed.
+  A separate decorative snow divider and HTML campaign heading form the header.
+- `singleline` headings, `multiline` rich text and `img editable="true"` regions
+  implement all supplied marketing content. See the 44-region inventory.
+- Each CTA is one HTML anchor inside its own rich-text region. Coloured anchor
+  borders create clickable spacing. Inline styling and template-level selectors
+  provide a fallback if an editor removes inline styling but retains the anchor.
+  Editor round-trip behaviour remains unverified; a specific recovery procedure
+  is in README. Square corners in classic Outlook are accepted by the user.
+- Footer uses `unsubscribe` and `webversion`; greeting uses
+  `[firstname,fallback=there]`. Their actual generated output must be tested in
+  Campaign Monitor. No account-level integration was available for this task.
+- Solid navy closing background deliberately replaces the PDF's winter texture;
+  legal copy has readable dark text on light grey. These avoid uneditable
+  decorative backgrounds and do not change campaign content.
+- This complete coded template is ready for import testing, not certified as
+  having passed Campaign Monitor or Microsoft Outlook. No new official article
+  retrieval or editor verification is claimed by the implementation.
