@@ -12,6 +12,7 @@ on:
       - fix/winter-cta-foreground-colours
       - fix/winter-primary-cta-white-foreground
       - fix/winter-primary-cta-remove-navy-text
+      - fix/winter-ios-dark-cta-white-text
   workflow_dispatch:
 
 permissions:
