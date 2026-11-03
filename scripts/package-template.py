@@ -9,7 +9,7 @@ class Images(HTMLParser):
   if tag=='img': self.paths.append(dict(attrs)['src'])
 p=Images(); p.feed((ROOT/'winter-wrapped-up.html').read_text())
 assert len(p.paths)==len(set(p.paths))
-# Retain the unmodified decorative source even though the user chose solid navy.
+# Include the unchanged decorative closing background, alongside both light and dark foreground assets.
 assets=sorted(set(p.paths)|{'images/winter-wrapped-up/background.png'})
 for package,paths in [('winter-wrapped-up-campaign-monitor.zip',['winter-wrapped-up.html']+assets),('winter-wrapped-up-images.zip',assets)]:
  with ZipFile(ROOT/package,'w',ZIP_DEFLATED) as z:
