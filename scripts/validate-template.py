@@ -193,10 +193,9 @@ with sync_playwright() as pw:
   assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).borderTopWidth')=='2px'
   assert page.locator('.cta-primary-label').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('primary label on navy not white',width)
   assert page.locator('.cta-primary-label font').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('nested primary font on navy not white',width)
-  page.emulate_media(color_scheme='no-preference')
-  assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).backgroundColor')=='rgba(0, 0, 0, 0)', ('default fallback not transparent',width)
-  assert page.locator('.cta-primary-label font').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('default fallback inner CTA label not white',width)
-  page.emulate_media(color_scheme='light')
+  # Inspect inline fallback directly: Chromium treats no-preference as light.
+  assert page.locator('.cta a').first.evaluate('(e)=>e.style.backgroundColor')=='transparent', ('inline fallback not transparent',width)
+  assert page.locator('.cta-primary-label font').get_attribute('color')=='#ffffff', ('inner font fallback not white',width)
   assert page.locator('.cta-white-label').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('closing label not white',width)
   for benefit in page.locator('.dm-benefit-bar').all():
    group=benefit.locator('table[align="center"]')
