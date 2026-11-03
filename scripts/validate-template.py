@@ -59,6 +59,17 @@ assert len(p.images)==9 and len(set(p.images))==9
 assert 'logo-a.png' not in SRC and 'position:absolute' not in SRC and '<v:' not in SRC
 assert '<script' not in SRC and 'javascript:' not in SRC
 assert SRC.count('<unsubscribe>Unsubscribe</unsubscribe>')==1
+assert '<meta name="color-scheme" content="light dark">' in SRC
+assert '<meta name="supported-color-schemes" content="light dark">' in SRC
+assert '@media (prefers-color-scheme: dark)' in SRC
+assert '[data-ogsc]' in SRC
+assert 'class="pad dm-intro"' in SRC and 'class="pad dm-benefits"' in SRC
+assert 'class="pad dm-visit"' in SRC and 'class="pad legal dm-legal"' in SRC
+assert 'color:#df429c' not in SRC, 'Old pink divider/OR treatment unexpectedly present'
+assert 'label="Benefit choice separator">OR</singleline>' in SRC
+assert 'color:#555961;"><singleline label="Benefit choice separator">' in SRC
+assert 'bgcolor="#df429c"' not in SRC, 'Pink divider still present'
+
 assert 'background="images/winter-wrapped-up/background.png"' in SRC
 assert "background-image:url('images/winter-wrapped-up/background.png')" in SRC
 assert SRC.index('label="Warranty benefit heading"') < SRC.index('label="Servicing benefit description"')
@@ -150,8 +161,25 @@ with sync_playwright() as pw:
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'), ('base-layout',width)
   results.append({'width':width,'initial':'pass','two_cta_border_hit_areas':'pass','long_copy_and_16_legal_paragraphs':'pass','missing_images':'pass','base_layout_contact_row':'pass'})
   page.close()
+  # Browser-level OS preference simulation; does not prove email-client support.
+  dark=browser.new_page(viewport={'width':width,'height':900},device_scale_factor=1,color_scheme='dark')
+  dark.goto(f'http://127.0.0.1:{server.server_port}/winter-wrapped-up.html')
+  dark.locator('img').evaluate_all('(is)=>Promise.all(is.map(i=>i.decode()))')
+  dark_bg=dark.locator('.shell').evaluate('(e)=>getComputedStyle(e).backgroundColor')
+  assert dark_bg == 'rgb(26, 32, 43)', ('dark shell',width,dark_bg)
+  intro_bg=dark.locator('.dm-intro').evaluate('(e)=>getComputedStyle(e).backgroundColor')
+  assert intro_bg == 'rgb(26, 32, 43)', ('dark intro',width,intro_bg)
+  intro_txt=dark.locator('.dm-intro h1').evaluate('(e)=>getComputedStyle(e).color')
+  assert intro_txt == 'rgb(228, 233, 241)', ('dark heading',width,intro_txt)
+  legal_bg=dark.locator('.dm-legal').evaluate('(e)=>getComputedStyle(e).backgroundColor')
+  assert legal_bg == 'rgb(32, 38, 51)', ('dark legal',width,legal_bg)
+  assert dark.evaluate('document.documentElement.scrollWidth<=innerWidth'), ('dark overflow',width)
+  assert dark.locator('.cta a').count()==2
+  assert dark.locator('.dm-intro .cta a').first.evaluate('(e)=>getComputedStyle(e).color') == 'rgb(255, 255, 255)'
+  dark.screenshot(path=str(ROOT/f'previews/email-{width}-dark.png'),full_page=True)
+  dark.close()
  browser.close()
 server.shutdown()
-report={'scope':'Local source/package checks and Chromium; no Campaign Monitor or email-client test', 'editable_regions':len(p.regions),'images':len(p.images),'packaged_original_assets':len(assets),'original_asset_hashes':'all ten match fetched main','approved_text_and_links':'all existing text regions match fetched main','font_stack':'Arial, Helvetica, sans-serif','unsubscribe':'exact native tag outside editable regions','content_phrases_checked':len(required),'structural_checks':'passed (strict tag stack including custom tags; not W3C validation)','packages':'passed exact archive membership and bytes','responsive':results}
+report={'scope':'Local source/package checks and Chromium; no Campaign Monitor or email-client test', 'editable_regions':len(p.regions),'images':len(p.images),'packaged_original_assets':len(assets),'original_asset_hashes':'all ten match fetched main','approved_text_and_links':'all existing text regions match fetched main','font_stack':'Arial, Helvetica, sans-serif','unsubscribe':'exact native tag outside editable regions','content_phrases_checked':len(required),'structural_checks':'passed (strict tag stack including custom tags; not W3C validation)','packages':'passed exact archive membership and bytes','responsive':results,'dark_mode':{'method':'OS media-query browser simulation, not real email-client rendering','widths':[800,600,375,320],'screenshots':'previews/email-{width}-dark.png','status':'passed'}}
 (ROOT/'LOCAL-VALIDATION.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))
