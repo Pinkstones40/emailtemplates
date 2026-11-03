@@ -101,13 +101,12 @@ assert '@media (prefers-color-scheme: light)' in SRC
 assert '.dm-intro .cta a { background-color:transparent !important; border-color:#171d36 !important; color:#171d36 !important; }' in SRC
 assert SRC.count('class="dm-benefit-bar"')==2
 assert '<font color="#ffffff"><span class="cta-white-label" style="color:#ffffff !important;text-decoration:none !important;">' in SRC
-assert '<span class="cta-primary-label" style="color:#171d36;-webkit-text-fill-color:#171d36;text-decoration:none;">' in SRC
 assert '<font color="#171d36">BROWSE' not in SRC
-assert '.dm-intro .cta a .cta-primary-label { color:#171d36 !important; -webkit-text-fill-color:#171d36 !important; }' in SRC
+assert 'cta-primary-label' not in SRC
+assert 'label="Primary CTA — label and link"' in SRC
+assert '@media (prefers-color-scheme: dark)' in SRC
+assert '  .dm-intro .cta a, .dm-intro .cta a * { color:#ffffff !important; -webkit-text-fill-color:#ffffff !important; }' in SRC
 assert '/* Word-based Outlook uses the default unfilled navy outline and navy text. */' in SRC
-assert '.dm-intro .cta a .cta-primary-label { color:#171d36 !important; -webkit-text-fill-color:#171d36 !important;' in SRC
-assert 'cta-primary-label font' not in SRC
-assert '.dm-intro .cta a .cta-primary-label { color:#ffffff !important; -webkit-text-fill-color:#ffffff !important; }' in SRC
 assert 'border-radius:28px;color:#171d36;font-family: Arial, Helvetica, sans-serif;font-size:14px;' in SRC
 assert '.cta-light a, .cta-light a span, .cta-light a font { color:#ffffff !important; text-decoration:none !important; }' in SRC
 assert SRC.count('<table role="presentation" align="center" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">')==2
@@ -194,11 +193,10 @@ with sync_playwright() as pw:
   assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).color')=='rgb(23, 29, 54)'
   assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).borderTopWidth')=='2px'
   assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).borderTopColor')=='rgb(23, 29, 54)', ('light mode border not navy',width)
-  assert page.locator('.cta-primary-label').evaluate('(e)=>getComputedStyle(e).color')=='rgb(23, 29, 54)', ('light mode navy label',width)
-  assert page.locator('.cta-primary-label').evaluate('(e)=>getComputedStyle(e).webkitTextFillColor')=='rgb(23, 29, 54)', ('light iOS text fill',width)
+  assert page.locator('.dm-intro .cta a').evaluate('(e)=>getComputedStyle(e).color')=='rgb(23, 29, 54)', ('light mode navy CTA',width)
   # Inspect inline fallback directly: Chromium treats no-preference as light.
   assert page.locator('.cta a').first.evaluate('(e)=>e.style.backgroundColor')=='transparent', ('inline fallback not transparent',width)
-  assert page.locator('.cta-primary-label').evaluate('(e)=>e.style.webkitTextFillColor')=='rgb(23, 29, 54)', ('inline Android text fill not navy',width)
+  assert page.locator('.dm-intro .cta a').evaluate('(e)=>e.style.color')=='rgb(23, 29, 54)', ('inline fallback navy text',width)
   assert page.locator('.cta-white-label').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('closing label not white',width)
   for benefit in page.locator('.dm-benefit-bar').all():
    group=benefit.locator('table[align="center"]')
@@ -252,8 +250,8 @@ with sync_playwright() as pw:
    assert button.evaluate('(e)=>getComputedStyle(e).backgroundColor')=='rgba(0, 0, 0, 0)', ('dark button fill',width)
    assert button.evaluate('(e)=>getComputedStyle(e).borderTopColor')=='rgb(255, 255, 255)', ('dark white border',width)
    assert button.evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('dark white text',width)
-  assert dark.locator('.cta-primary-label').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('dark primary CTA label',width)
-  assert dark.locator('.cta-primary-label').evaluate('(e)=>getComputedStyle(e).webkitTextFillColor')=='rgb(255, 255, 255)', ('iOS dark primary text fill not white',width)
+  assert dark.locator('.dm-intro .cta a').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('dark primary CTA text not white',width)
+  assert dark.locator('.dm-intro .cta a').evaluate('(e)=>getComputedStyle(e).webkitTextFillColor')=='rgb(255, 255, 255)', ('iOS dark primary text fill not white',width)
   assert dark.locator('.cta-white-label').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('dark closing CTA label',width)
   assert '499 Newcastle Road' in dark.locator('.dm-address').inner_text()
   dark_bg=dark.locator('.shell').evaluate('(e)=>getComputedStyle(e).backgroundColor')
