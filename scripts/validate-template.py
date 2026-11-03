@@ -21,11 +21,12 @@ class Structure(HTMLParser):
     assert not any(t in ('singleline','multiline') for t in self.stack), 'Nested editable regions'
   if tag=='img':
    assert a.get('editable')=='true' and 'alt' in a and a.get('width')
+   assert not any(t in ('singleline','multiline') for t in self.stack), 'Campaign Monitor forbids editable images within text regions'
    assert (ROOT/a['src']).is_file(); self.images.append(a['src'])
   if tag=='unsubscribe':
    assert not any(t in ('singleline','multiline') for t in self.stack), 'Unsubscribe must be outside editable regions'
   if tag=='a':
-   assert any(t in ('singleline','multiline') for t in self.stack), 'Uneditable ordinary link'
+   assert any(t in ('singleline','multiline') for t in self.stack) or a.get('class')=='social-icon-link', 'Uneditable ordinary link'
    self.links.append(a['href'])
   if tag not in VOID: self.stack.append(tag)
  def handle_endtag(self,tag):
@@ -86,7 +87,8 @@ assert len(p.links)==10, p.links
 for platform in ('facebook.com','linkedin.com','tiktok.com'):
  assert sum(platform in link for link in p.links)==1, platform
 for platform in ('Facebook','LinkedIn','TikTok'):
- assert f'label="{platform} icon link"' in SRC
+ assert f'aria-label="{platform}"' in SRC
+ assert f'label="{platform} icon link"' not in SRC
  assert f'>{platform}</a>' not in SRC
 assert 'outline:1px solid #8292ad' in SRC, 'Subtle CTA outline must survive on forced dark clients where supported'
 assert '.light-asset { display:block; }' in SRC
@@ -154,8 +156,8 @@ with sync_playwright() as pw:
   assert page.locator('img.dark-asset:visible').count()==0
   assert page.locator('img.light-asset').first.get_attribute('src')=='images/winter-wrapped-up/hero.png'
   for social in ('Facebook','LinkedIn','TikTok'):
-   assert page.locator(f'multiline[label="{social} icon link"] a.social-icon-link').count()==1
-   assert page.locator(f'multiline[label="{social} icon link"] img').count()==2
+   assert page.locator(f'a.social-icon-link[aria-label="{social}"]').count()==1
+   assert page.locator(f'a.social-icon-link[aria-label="{social}"] img').count()==2
 
   assert page.locator('unsubscribe').is_visible()
   assert page.locator('unsubscribe').inner_text()=='Unsubscribe'
