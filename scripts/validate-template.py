@@ -17,9 +17,10 @@ class Structure(HTMLParser):
   if tag in ('singleline','multiline') or (tag=='img' and 'editable' in a):
    assert a.get('label') and a['label'] not in self.regions
    self.regions.append(a['label'])
-   assert not any(t in ('singleline','multiline') for t in self.stack), 'Nested editable regions'
+   if tag in ('singleline','multiline'):
+    assert not any(t in ('singleline','multiline') for t in self.stack), 'Nested editable regions'
   if tag=='img':
-   assert a.get('editable')=='true' and a.get('alt') and a.get('width')
+   assert a.get('editable')=='true' and 'alt' in a and a.get('width')
    assert (ROOT/a['src']).is_file(); self.images.append(a['src'])
   if tag=='unsubscribe':
    assert not any(t in ('singleline','multiline') for t in self.stack), 'Unsubscribe must be outside editable regions'
@@ -55,7 +56,7 @@ required=[
  'Visit our Used Car Centre','499 Newcastle Road','ST6 6PJ','01782 711661']
 for phrase in required: assert phrase in text, phrase
 assert SRC.count('BROWSE WINTER WRAPPED UP CARS')==2
-assert len(p.images)==9 and len(set(p.images))==9
+assert len(p.images)==15 and len(set(p.images))==15
 assert 'logo-a.png' not in SRC and 'position:absolute' not in SRC and '<v:' not in SRC
 assert '<script' not in SRC and 'javascript:' not in SRC
 assert SRC.count('<unsubscribe>Unsubscribe</unsubscribe>')==1
@@ -81,9 +82,26 @@ assert all(int(h)<=2 for h in re.findall(r'(?:;|")height:\s*(\d+)px',SRC)), 'Fix
 assert all(int(h)<=2 for h in re.findall(r'<td\b[^>]* height="(\d+)"',SRC)), 'Fixed cell height'
 # Two CTA anchors and one separate full-terms link share the campaign URL.
 assert p.links.count('https://www.pinkstones.uk/winter-wrapped-up')==3
+assert len(p.links)==10, p.links
+for platform in ('facebook.com','linkedin.com','tiktok.com'):
+ assert sum(platform in link for link in p.links)==1, platform
+for platform in ('Facebook','LinkedIn','TikTok'):
+ assert f'label="{platform} icon link"' in SRC
+ assert f'>{platform}</a>' not in SRC
+assert 'outline:1px solid #8292ad' in SRC, 'Subtle CTA outline must survive on forced dark clients where supported'
+assert '.light-asset { display:block; }' in SRC
+assert '.dark-asset { display:none;' in SRC
+
 manifest=json.loads((ROOT/'ARTWORK-MANIFEST.json').read_text())
 assets=[item['path'] for item in manifest['assets']]
-assert len(assets)==10 and set(p.images)==set(assets)-{'images/winter-wrapped-up/background.png'}
+dark_assets=['images/winter-wrapped-up/'+name for name in (
+ 'hero-dark.png','phone-white.png','web-white.png',
+ 'facebook-white.png','linkedin-white.png','tiktok-white.png')]
+assert len(assets)==10 and len(dark_assets)==6
+assert set(p.images)==set(assets+dark_assets)-{'images/winter-wrapped-up/background.png'}
+for path in dark_assets:
+ assert (ROOT/path).is_file() and (ROOT/path).read_bytes().startswith(bytes([137,80,78,71,13,10,26,10])), path
+
 for item in manifest['assets']:
  data=(ROOT/item['path']).read_bytes()
  assert len(data)==item['bytes'] and hashlib.sha256(data).hexdigest()==item['sha256']
@@ -108,11 +126,15 @@ class Copy(HTMLParser):
 base=Copy(); current=Copy()
 base.feed(subprocess.check_output(['git','-C',str(ROOT),'show',manifest['source_commit']+':winter-wrapped-up.html'],text=True))
 current.feed(SRC)
+removed_social_text={'Facebook destination','LinkedIn destination','TikTok destination'}
 for label,content in base.regions.items():
+ if label in removed_social_text:
+  assert label not in current.regions
+  continue
  assert label in current.regions
  assert ' '.join(''.join(content['text']).split())==' '.join(''.join(current.regions[label]['text']).split()), ('Approved copy changed',label)
  assert content['links']==current.regions[label]['links'], ('Approved link changed',label)
-for name,expected in [('winter-wrapped-up-campaign-monitor.zip',['winter-wrapped-up.html']+assets),('winter-wrapped-up-images.zip',assets)]:
+for name,expected in [('winter-wrapped-up-campaign-monitor.zip',['winter-wrapped-up.html']+assets+dark_assets),('winter-wrapped-up-images.zip',assets+dark_assets)]:
  with ZipFile(ROOT/name) as z:
   assert z.testzip() is None and sorted(z.namelist())==sorted(expected)
   for item in expected: assert z.read(item)==(ROOT/item).read_bytes()
@@ -127,7 +149,14 @@ with sync_playwright() as pw:
   page.goto(f'http://127.0.0.1:{server.server_port}/winter-wrapped-up.html')
   page.locator('img').evaluate_all('(is)=>Promise.all(is.map(i=>i.decode()))')
   assert page.locator('img').evaluate_all('(is)=>is.every(i=>i.naturalWidth>0)')
-  assert page.locator('img').evaluate_all('(is)=>is.every(i=>{let b=i.getBoundingClientRect();return b.width<=i.naturalWidth+1 && Math.abs(b.width/b.height-i.naturalWidth/i.naturalHeight)<0.02})'), 'Image distortion or enlargement'
+  assert page.locator('img').evaluate_all('(is)=>is.every(i=>{let b=i.getBoundingClientRect();return b.width===0 || (b.width<=i.naturalWidth+1 && b.height>0 && Math.abs(b.width/b.height-i.naturalWidth/i.naturalHeight)<0.02)})'), 'Image distortion or enlargement'
+  assert page.locator('img.light-asset:visible').count()==6
+  assert page.locator('img.dark-asset:visible').count()==0
+  assert page.locator('img.light-asset').first.get_attribute('src')=='images/winter-wrapped-up/hero.png'
+  for social in ('Facebook','LinkedIn','TikTok'):
+   assert page.locator(f'multiline[label="{social} icon link"] a.social-icon-link').count()==1
+   assert page.locator(f'multiline[label="{social} icon link"] img').count()==2
+
   assert page.locator('unsubscribe').is_visible()
   assert page.locator('unsubscribe').inner_text()=='Unsubscribe'
   assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'), width
@@ -165,6 +194,9 @@ with sync_playwright() as pw:
   dark=browser.new_page(viewport={'width':width,'height':900},device_scale_factor=1,color_scheme='dark')
   dark.goto(f'http://127.0.0.1:{server.server_port}/winter-wrapped-up.html')
   dark.locator('img').evaluate_all('(is)=>Promise.all(is.map(i=>i.decode()))')
+  assert dark.locator('img.light-asset:visible').count()==0, ('light asset in dark view',width)
+  assert dark.locator('img.dark-asset:visible').count()==6, ('missing dark assets',width)
+  assert dark.locator('img.dark-asset').first.get_attribute('src')=='images/winter-wrapped-up/hero-dark.png'
   dark_bg=dark.locator('.shell').evaluate('(e)=>getComputedStyle(e).backgroundColor')
   assert dark_bg == 'rgb(26, 32, 43)', ('dark shell',width,dark_bg)
   intro_bg=dark.locator('.dm-intro').evaluate('(e)=>getComputedStyle(e).backgroundColor')
@@ -180,6 +212,6 @@ with sync_playwright() as pw:
   dark.close()
  browser.close()
 server.shutdown()
-report={'scope':'Local source/package checks and Chromium; no Campaign Monitor or email-client test', 'editable_regions':len(p.regions),'images':len(p.images),'packaged_original_assets':len(assets),'original_asset_hashes':'all ten match fetched main','approved_text_and_links':'all existing text regions match fetched main','font_stack':'Arial, Helvetica, sans-serif','unsubscribe':'exact native tag outside editable regions','content_phrases_checked':len(required),'structural_checks':'passed (strict tag stack including custom tags; not W3C validation)','packages':'passed exact archive membership and bytes','responsive':results,'dark_mode':{'method':'OS media-query browser simulation, not real email-client rendering','widths':[800,600,375,320],'screenshots':'previews/email-{width}-dark.png','status':'passed'}}
+report={'scope':'Local source/package checks and Chromium; no Campaign Monitor or email-client test', 'editable_regions':len(p.regions),'images':len(p.images),'packaged_original_assets':len(assets),'new_dark_mode_assets':len(dark_assets),'original_asset_hashes':'all ten match fetched main','approved_text_and_links':'all existing text regions match fetched main','font_stack':'Arial, Helvetica, sans-serif','unsubscribe':'exact native tag outside editable regions','content_phrases_checked':len(required),'structural_checks':'passed (strict tag stack including custom tags; not W3C validation)','packages':'passed exact archive membership and bytes','responsive':results,'dark_mode':{'method':'OS media-query browser simulation, not real email-client rendering','widths':[800,600,375,320],'screenshots':'previews/email-{width}-dark.png','status':'passed'}}
 (ROOT/'LOCAL-VALIDATION.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))

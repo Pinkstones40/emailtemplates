@@ -58,3 +58,18 @@ change the title in the hero artwork; replace the hero if both must change.
 
 All HTML text uses `Arial, Helvetica, sans-serif`. Typography already baked into
 supplied artwork is preserved; it has not been redrawn to match the HTML font.
+
+## Added dark-mode assets
+
+All new assets are preserved as designer-supplied PNGs. Each is exposed through a separately labelled editable image element in the HTML; editor availability requires a Campaign Monitor import/edit test.
+
+| Light original | Dark replacement | Usage |
+| --- | --- | --- |
+| `hero.png` | `hero-dark.png` | Alternative full-width hero for CSS-supported dark mode |
+| `phone.png` | `phone-white.png` | White phone icon for dark contact panel |
+| `web.png` | `web-white.png` | White website icon for dark contact panel |
+| `facebook.png` | `facebook-white.png` | Icon-only Facebook link |
+| `linkedin.png` | `linkedin-white.png` | Icon-only LinkedIn link |
+| `tiktok.png` | `tiktok-white.png` | Icon-only TikTok link |
+
+Unchanged original light images are the safe fallback for Android forced dark mode. Do not bake CSS-only assumptions into the hero or icons. Keep each pair the same intended composition and dimensions. All three social networks are represented only by their icons, which carry the accessible names of their destinations. No CSS filters or colour inversion are applied to the PNG files.
