@@ -20,7 +20,7 @@ singleline,multiline { display:block; }
 /* These selectors also restore button treatment if the rich-text editor retains
    the anchor but removes inline styles. Import/edit/send verification is needed. */
 .cta p { margin:0 !important; text-align:center !important; }
-.cta a { display:block; background-color:#171d36; padding:14px 18px; border:2px solid #171d36; border-radius:28px; color:#ffffff !important; font-family: Arial, Helvetica, sans-serif; font-size:14px; font-weight:bold; line-height:20px; text-align:center; text-decoration:none; word-wrap:break-word; overflow-wrap:break-word; }
+.cta a { display:block; background-color:transparent; padding:14px 18px; border:2px solid #171d36; border-radius:28px; color:#171d36 !important; font-family: Arial, Helvetica, sans-serif; font-size:14px; font-weight:bold; line-height:20px; text-align:center; text-decoration:none; word-wrap:break-word; overflow-wrap:break-word; }
 .cta-light a { background-color:transparent; border-color:#ffffff; color:#ffffff !important; }
 .legal p { margin:0 0 14px; }
 @media screen and (max-width:599px) {
@@ -40,9 +40,15 @@ singleline,multiline { display:block; }
 .social-icon-link { display:inline-block;text-decoration:none;line-height:0; }
 .social-icon-link img { border:0; }
 .social-icon-link:focus { outline:2px solid #526a93; }
-/* Fine outline offers a button edge even against a client-forced black backdrop.
-   Text and background colours can still be transformed by the email client. */
+/* Native client transformation may still affect border and text colours. */
 .cta a { outline:0; }
+/* Gmail Android forced-dark generally ignores color-scheme media queries.
+   Keep the inline/default primary button transparent with navy text/outline
+   (allow native inversion), and apply the navy fill only in explicitly
+   supported light mode. Clients ignoring media queries use an outlined fallback. */
+@media (prefers-color-scheme: light) {
+  .dm-intro .cta a { background-color:#171d36 !important; border-color:#171d36 !important; color:#ffffff !important; }
+}
 /* OS-aware dark mode. Some email clients ignore these rules and force their own inversion. */
 @media (prefers-color-scheme: dark) {
   .light-asset { display:none !important;max-height:0 !important;width:0 !important;height:0 !important;overflow:hidden !important; }
@@ -115,19 +121,23 @@ singleline,multiline { display:block; }
 <multiline label="Campaign dates"><p style="margin:16px 0 20px;font-size:15px;line-height:24px;color:#171d36;"><strong>2nd – 30th November 2026</strong></p></multiline>
 <multiline label="Introduction"><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">The temperature isn't the only thing dropping this November!</p><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">Our <strong>Winter Wrapped Up</strong> event has arrived at Pinkstones Used Car Centre, and we've reduced prices across a specially selected range of quality used cars.</p><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">Whether you're looking for a practical runaround, a family SUV or simply fancy a change, there's never been a better time to take a look at what's waiting for you.</p><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">And because we believe a great deal should come with a little something extra, we've wrapped up two fantastic benefits for you to choose from.</p></multiline>
 <div style="padding-top:8px;"><table role="presentation" align="center" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:440px;"><tr><td class="cta" align="center" style="font-family: Arial, Helvetica, sans-serif;">
-<multiline label="Primary CTA — label and link"><p style="margin:0;text-align:center;"><a href="https://www.pinkstones.uk/winter-wrapped-up" style="display:block;background-color:#171d36;padding:14px 18px;border:2px solid #171d36;border-radius:28px;color:#ffffff;font-family: Arial, Helvetica, sans-serif;font-size:14px;font-weight:bold;line-height:20px;text-align:center;text-decoration:none;word-wrap:break-word;overflow-wrap:break-word;">BROWSE WINTER WRAPPED UP CARS</a></p></multiline>
+<multiline label="Primary CTA — label and link"><p style="margin:0;text-align:center;"><a href="https://www.pinkstones.uk/winter-wrapped-up" style="display:block;background-color:transparent;padding:14px 18px;border:2px solid #171d36;border-radius:28px;color:#171d36;font-family: Arial, Helvetica, sans-serif;font-size:14px;font-weight:bold;line-height:20px;text-align:center;text-decoration:none;word-wrap:break-word;overflow-wrap:break-word;">BROWSE WINTER WRAPPED UP CARS</a></p></multiline>
 </td></tr></table></div>
 </td></tr>
 <!-- BENEFITS: stacked like the PDF; each description is associated with its offer. -->
 <tr><td class="pad dm-benefits" style="padding:0 40px 34px;font-family: Arial, Helvetica, sans-serif;">
 <h2 class="section-heading" style="margin:0 0 24px;font-size:24px;line-height:32px;color:#171d36;"><singleline label="Benefits section heading">YOUR CAR. YOUR CHOICE.</singleline></h2>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="dm-benefit-bar" bgcolor="#171d36" style="background-color:#171d36;border-radius:10px;"><tr>
-<td class="benefit-title" style="padding:20px 12px 20px 20px;font-family: Arial, Helvetica, sans-serif;font-size:22px;line-height:28px;font-weight:bold;color:#ffffff;"><singleline label="Servicing benefit heading">2 YEARS' FREE SERVICING*</singleline></td>
-<td width="66" style="width:66px;padding:12px 18px 12px 0;"><img editable="true" label="Servicing benefit heading icon" src="images/winter-wrapped-up/servicing.png" width="41" alt="Pink servicing tool icon" border="0" style="display:block;border:0;width:100%;max-width:41px;height:auto;"></td></tr></table>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="dm-benefit-bar" bgcolor="#171d36" style="background-color:#171d36;border-radius:10px;"><tr><td align="center" style="padding:20px 14px;text-align:center;">
+<table role="presentation" align="center" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;"><tr>
+<td class="benefit-title" align="center" valign="middle" style="padding:0 12px 0 0;text-align:center;font-family: Arial, Helvetica, sans-serif;font-size:22px;line-height:28px;font-weight:bold;color:#ffffff;"><singleline label="Servicing benefit heading">2 YEARS' FREE SERVICING*</singleline></td>
+<td valign="middle" width="43" style="padding:0;width:43px;"><img editable="true" label="Servicing benefit heading icon" src="images/winter-wrapped-up/servicing.png" width="41" alt="Pink servicing tool icon" border="0" style="display:block;border:0;width:41px;max-width:41px;height:auto;"></td>
+</tr></table></td></tr></table>
 <p style="margin:0 0 16px;text-align:center;font-size:20px;line-height:28px;font-weight:bold;color:#555961;"><singleline label="Benefit choice separator">OR</singleline></p>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="dm-benefit-bar" bgcolor="#171d36" style="background-color:#171d36;border-radius:10px;"><tr>
-<td class="benefit-title" style="padding:20px 12px 20px 20px;font-family: Arial, Helvetica, sans-serif;font-size:22px;line-height:28px;font-weight:bold;color:#ffffff;"><singleline label="Warranty benefit heading">12-MONTH EXTENDED WARRANTY^</singleline></td>
-<td width="66" style="width:66px;padding:12px 18px 12px 0;"><img editable="true" label="Warranty benefit heading icon" src="images/winter-wrapped-up/warranty.png" width="38" alt="Pink warranty car icon" border="0" style="display:block;border:0;width:100%;max-width:38px;height:auto;"></td></tr></table><div style="padding-top:16px;"></div><div style="padding-top:16px;"><multiline label="Servicing benefit description"><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">Enjoy two manufacturer-recommended scheduled services with Pinkstones, helping you keep your next car in great shape without the cost of those services.</p></multiline></div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="dm-benefit-bar" bgcolor="#171d36" style="background-color:#171d36;border-radius:10px;"><tr><td align="center" style="padding:20px 14px;text-align:center;">
+<table role="presentation" align="center" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;"><tr>
+<td class="benefit-title" align="center" valign="middle" style="padding:0 12px 0 0;text-align:center;font-family: Arial, Helvetica, sans-serif;font-size:22px;line-height:28px;font-weight:bold;color:#ffffff;"><singleline label="Warranty benefit heading">12-MONTH EXTENDED WARRANTY^</singleline></td>
+<td valign="middle" width="40" style="padding:0;width:40px;"><img editable="true" label="Warranty benefit heading icon" src="images/winter-wrapped-up/warranty.png" width="38" alt="Pink warranty car icon" border="0" style="display:block;border:0;width:38px;max-width:38px;height:auto;"></td>
+</tr></table></td></tr></table><div style="padding-top:16px;"></div><div style="padding-top:16px;"><multiline label="Servicing benefit description"><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">Enjoy two manufacturer-recommended scheduled services with Pinkstones, helping you keep your next car in great shape without the cost of those services.</p></multiline></div>
 
 <div style="padding-top:16px;"><multiline label="Warranty benefit description"><p style="margin:0 0 16px;font-size:15px;line-height:24px;color:#555961;">Enjoy an additional 12 months' warranty cover on top of our standard six-month used car warranty, giving you a total of 18 months' cover for added peace of mind.</p></multiline></div>
 <multiline label="Benefit eligibility note"><p style="margin:0;font-size:15px;line-height:24px;color:#666a73;">On selected used vehicles. Choose one benefit.</p></multiline>
