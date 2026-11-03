@@ -98,13 +98,15 @@ for platform in ('Facebook','LinkedIn','TikTok'):
 assert 'outline:1px solid #8292ad' not in SRC
 assert '.cta a { display:block; background-color:transparent; padding:14px 18px; border:2px solid #171d36;' in SRC
 assert '@media (prefers-color-scheme: light)' in SRC
-assert '.dm-intro .cta a { background-color:#171d36 !important; border-color:#171d36 !important; color:#ffffff !important; }' in SRC
+assert '.dm-intro .cta a { background-color:transparent !important; border-color:#171d36 !important; color:#171d36 !important; }' in SRC
 assert SRC.count('class="dm-benefit-bar"')==2
 assert '<font color="#ffffff"><span class="cta-white-label" style="color:#ffffff !important;text-decoration:none !important;">' in SRC
-assert '<span class="cta-primary-label" style="color:#ffffff;text-decoration:none;"><font color="#ffffff">' in SRC
-assert '.dm-intro .cta a .cta-primary-label, .dm-intro .cta a .cta-primary-label font { color:#ffffff !important; }' in SRC
-assert '/* Word-based Outlook ignores the light/dark query but renders a filled primary CTA:' in SRC
-assert '.cta-primary-label, .cta-primary-label font { color:#171d36 !important;' in SRC
+assert '<span class="cta-primary-label" style="color:#171d36;text-decoration:none;"><font color="#171d36">' in SRC
+assert '.dm-intro .cta a .cta-primary-label, .dm-intro .cta a .cta-primary-label font { color:#171d36 !important; }' in SRC
+assert '/* Word-based Outlook uses the default unfilled navy outline and navy text. */' in SRC
+assert '.dm-intro .cta a .cta-primary-label, .dm-intro .cta a .cta-primary-label font { color:#171d36 !important;' in SRC
+assert '.cta-primary-label, .cta-primary-label font { color:#171d36 !important;' not in SRC
+assert 'border-radius:28px;color:#171d36;font-family: Arial, Helvetica, sans-serif;font-size:14px;' in SRC
 assert '.cta-light a, .cta-light a span, .cta-light a font { color:#ffffff !important; text-decoration:none !important; }' in SRC
 assert SRC.count('<table role="presentation" align="center" cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">')==2
 assert '.dm-intro .cta a { background-color:transparent !important; border-color:#ffffff !important; color:#ffffff !important; }' in SRC
@@ -186,11 +188,15 @@ with sync_playwright() as pw:
   assert 'ST6 6PJ' in page.locator('.dm-address').inner_text()
   for unwanted_social_text in ('Facebook','LinkedIn','TikTok'):
    assert unwanted_social_text not in page.locator('.dm-address').inner_text()
-  assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).backgroundColor')=='rgb(23, 29, 54)'
-  assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)'
+  assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).backgroundColor')=='rgba(0, 0, 0, 0)'
+  assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).color')=='rgb(23, 29, 54)'
   assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).borderTopWidth')=='2px'
-  assert page.locator('.cta-primary-label').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('primary label on navy not white',width)
-  assert page.locator('.cta-primary-label font').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('nested primary font on navy not white',width)
+  assert page.locator('.cta a').first.evaluate('(e)=>getComputedStyle(e).borderTopColor')=='rgb(23, 29, 54)', ('light mode border not navy',width)
+  assert page.locator('.cta-primary-label').evaluate('(e)=>getComputedStyle(e).color')=='rgb(23, 29, 54)', ('light mode navy label',width)
+  assert page.locator('.cta-primary-label font').evaluate('(e)=>getComputedStyle(e).color')=='rgb(23, 29, 54)', ('light mode navy inner font',width)
+  # Inspect inline fallback directly: Chromium treats no-preference as light.
+  assert page.locator('.cta a').first.evaluate('(e)=>e.style.backgroundColor')=='transparent', ('inline fallback not transparent',width)
+  assert page.locator('.cta-primary-label font').get_attribute('color')=='#171d36', ('inner font Android fallback not navy',width)
   assert page.locator('.cta-white-label').evaluate('(e)=>getComputedStyle(e).color')=='rgb(255, 255, 255)', ('closing label not white',width)
   for benefit in page.locator('.dm-benefit-bar').all():
    group=benefit.locator('table[align="center"]')
