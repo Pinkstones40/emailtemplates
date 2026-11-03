@@ -16,12 +16,9 @@ hashes. Validation compares all ten files with that Git snapshot.
 | `facebook.png` | 38 × 38 | 1:1 | Up to 26 × 26px | Facebook destination icon |
 | `linkedin.png` | 38 × 38 | 1:1 | Up to 26 × 26px | LinkedIn destination icon |
 | `tiktok.png` | 38 × 38 | 1:1 | Up to 26 × 26px | TikTok destination icon |
-| `background.png` | 600 × 382 | 300:191 | Not displayed | Unused source asset; no image control |
+| `background.png` | 600 × 382 | 300:191 | Background behind closing offer panel | Fixed CSS/table background; not a Campaign Monitor editable-image region |
 
-The user explicitly selected the approved **solid navy closing section**. The
-supplied background is retained unchanged in the repository and both import ZIPs
-as an unused source asset. It is not a CSS/VML background, an editable region or
-a required download in the rendered email.
+The approved design PDF shows the original navy snowflake illustration behind the closing promotional panel. The supplied `background.png` is now used as that decorative background without modification. A solid navy `bgcolor` is retained as the classic Outlook/images-off fallback. Unlike `<img editable>`, a CSS/table background is **not independently replaceable in the Campaign Monitor editor**; replacing this decorative image requires editing the HTML and rebuilding the packages. The original hero and other nine foreground images remain separately editable.
 
 ## Header composition
 
@@ -57,7 +54,7 @@ change the title in the hero artwork; replace the hero if both must change.
 - Target no more than about 200KB for a future hero and 350KB for photography,
   and under 10KB per small icon where quality permits. The current files are
   retained exactly, irrespective of size. Their nine rendered originals total
-  about 478KB; the unused background adds about 101KB to the delivery archives.
+  about 478KB; the closing background adds about 101KB to the delivery archives.
 
 All HTML text uses `Arial, Helvetica, sans-serif`. Typography already baked into
 supplied artwork is preserved; it has not been redrawn to match the HTML font.
