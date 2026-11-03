@@ -100,7 +100,7 @@ dark_assets=['images/winter-wrapped-up/'+name for name in (
 assert len(assets)==10 and len(dark_assets)==6
 assert set(p.images)==set(assets+dark_assets)-{'images/winter-wrapped-up/background.png'}
 for path in dark_assets:
- assert (ROOT/path).is_file() and (ROOT/path).read_bytes().startswith(b'\\x89PNG\\r\\n\\x1a\\n'), path
+ assert (ROOT/path).is_file() and (ROOT/path).read_bytes().startswith(bytes([137,80,78,71,13,10,26,10])), path
 
 for item in manifest['assets']:
  data=(ROOT/item['path']).read_bytes()
