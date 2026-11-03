@@ -196,3 +196,15 @@ screenshots/results; it does not send mail or contact Campaign Monitor.
 ## Artwork fidelity adjustment (3 November 2026)
 
 The original Adobe XD PDF has been reviewed. The winter illustration behind the closing CTA is restored from `images/winter-wrapped-up/background.png`, and both benefit bars now precede their supporting descriptions, matching the reference design's section order. The previously approved full campaign copy, OR separator, two editable CTA links, Arial fallback and exact `<unsubscribe>Unsubscribe</unsubscribe>` tag remain intact. For reliable accessibility and edits, all closing text remains actual HTML, not baked into the background. The background is fixed for the campaign; classic Outlook may display the intentionally solid navy fallback rather than the snowflake texture. This requires a real Outlook test before release.
+
+## Dark-mode adaptation (3 November 2026)
+
+The OS-responsive variant is embedded in the **same** Campaign Monitor HTML template; no separate dark-mode campaign is needed. The header declares `light dark` supported colour schemes, and a `@media (prefers-color-scheme: dark)` block changes light content sections to charcoal, updates body/headline copy to readable near-white, and changes the address/legal cards to darker tones. Additional `[data-ogsc]` selectors provide best-effort support for some Outlook app/web implementations.
+
+Light mode no longer has the pink lines beneath “Prices down. Extras included.” or “Visit our Used Car Centre”; “OR” is now the normal body-text grey. In dark mode “OR” follows the near-white body text to retain contrast.
+
+The hero and designer-supplied winter imagery are **not recoloured or swapped**. The two navy benefit panels retain their white lettering, and the closing winter section keeps its original background and high-contrast white CTA. Arial remains the email-safe font stack.
+
+**Important compatibility limitation:** Different email clients implement dark mode differently. Apple Mail and other media-query-capable clients should follow the custom dark scheme; Gmail and some classic Outlook/Windows variants perform their own inversion or ignore the query, so an exact OS-matched dark version cannot be guaranteed everywhere. Inspect actual received messages in light/dark Outlook (classic and new), Apple Mail/iOS Mail, Gmail (iOS and Android) and Outlook.com. Browser screenshots are simulations, not email-client acceptance.
+
+The GitHub Actions build artifact contains `previews/email-600-dark.png`, `previews/email-375-dark.png`, `previews/email-320-dark.png` (and 800px), alongside the light-mode previews and rebuilt Campaign Monitor ZIPs. The native unsubscribe tag and independently editable CTA anchors are unchanged.
