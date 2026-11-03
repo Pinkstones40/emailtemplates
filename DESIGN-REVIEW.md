@@ -1,5 +1,13 @@
 # Winter Wrapped Up — design and compatibility review
 
+> Current implementation update: the user's complete-build brief supersedes the
+> independent-logo overlay requirement and the prior full-build gate. The logo
+> is now incorporated in one editable hero asset. The complete template is
+> `winter-wrapped-up.html`; see `README.md`, `IMAGE-SPECS.md`, `EDITABLE-REGIONS.md`
+> and `LOCAL-VALIDATION.json`. Historic overlay findings below are retained for
+> context and do not constrain the authorised combined-hero build. Campaign
+> Monitor import/edit and real-client sends remain unperformed.
+
 ## Authoritative references
 
 Visual reference: supplied `Winter Wrapped Up Campaign Email – 1.pdf`, one page,

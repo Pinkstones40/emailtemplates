@@ -1,0 +1,42 @@
+{
+  "scope": "Local source/package checks and Chromium; no Campaign Monitor or email-client test",
+  "editable_regions": 44,
+  "images": 9,
+  "content_phrases_checked": 23,
+  "structural_checks": "passed (strict tag stack including custom tags; not W3C validation)",
+  "packages": "passed exact archive membership and bytes",
+  "responsive": [
+    {
+      "width": 800,
+      "initial": "pass",
+      "two_cta_border_hit_areas": "pass",
+      "long_copy_and_16_legal_paragraphs": "pass",
+      "missing_images": "pass",
+      "base_layout_contact_row": "pass"
+    },
+    {
+      "width": 600,
+      "initial": "pass",
+      "two_cta_border_hit_areas": "pass",
+      "long_copy_and_16_legal_paragraphs": "pass",
+      "missing_images": "pass",
+      "base_layout_contact_row": "pass"
+    },
+    {
+      "width": 375,
+      "initial": "pass",
+      "two_cta_border_hit_areas": "pass",
+      "long_copy_and_16_legal_paragraphs": "pass",
+      "missing_images": "pass",
+      "base_layout_contact_row": "pass"
+    },
+    {
+      "width": 320,
+      "initial": "pass",
+      "two_cta_border_hit_areas": "pass",
+      "long_copy_and_16_legal_paragraphs": "pass",
+      "missing_images": "pass",
+      "base_layout_contact_row": "pass"
+    }
+  ]
+}

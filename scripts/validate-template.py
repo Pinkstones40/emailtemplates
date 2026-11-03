@@ -1,0 +1,115 @@
+"""Structural/content/package checks plus Chromium stress tests; not a CM emulator."""
+from pathlib import Path
+from html.parser import HTMLParser
+from zipfile import ZipFile
+import json, re, shutil, os, functools, http.server, threading
+from playwright.sync_api import sync_playwright
+ROOT=Path(__file__).resolve().parents[1]
+SRC=(ROOT/'winter-wrapped-up.html').read_text()
+VOID={'area','base','br','col','embed','hr','img','input','link','meta','param','source','track','wbr'}
+class Structure(HTMLParser):
+ def __init__(self):
+  super().__init__(convert_charrefs=True); self.stack=[]; self.images=[]; self.regions=[]; self.links=[]; self.text=[]
+ def handle_starttag(self,tag,attrs):
+  a=dict(attrs); parent=self.stack[-1] if self.stack else None
+  if tag=='tr': assert parent in ('table','tbody','thead','tfoot'), (tag,parent)
+  if tag in ('td','th'): assert parent=='tr', (tag,parent)
+  if tag in ('singleline','multiline') or (tag=='img' and 'editable' in a):
+   assert a.get('label') and a['label'] not in self.regions
+   self.regions.append(a['label'])
+   assert not any(t in ('singleline','multiline') for t in self.stack), 'Nested editable regions'
+  if tag=='img':
+   assert a.get('editable')=='true' and a.get('alt') and a.get('width')
+   assert (ROOT/a['src']).is_file(); self.images.append(a['src'])
+  if tag=='a':
+   assert any(t in ('singleline','multiline') for t in self.stack), 'Uneditable ordinary link'
+   self.links.append(a['href'])
+  if tag not in VOID: self.stack.append(tag)
+ def handle_endtag(self,tag):
+  assert self.stack and self.stack[-1]==tag, (tag,self.stack[-4:])
+  self.stack.pop()
+  if tag in ('p','h1','h2','h3','td'): self.text.append(' ')
+ def handle_data(self,data):
+  self.text.append(data)
+  if 'body' in self.stack and data.strip():
+   assert any(t in ('singleline','multiline','unsubscribe','webversion') for t in self.stack), ('Uneditable body text',data[:60])
+p=Structure(); p.feed(SRC); assert not p.stack
+text=' '.join(''.join(p.text).split())
+required=[
+ 'WINTER WRAPPED UP','Prices down. Extras included.','2nd – 30th November 2026',
+ 'Hi [firstname,fallback=there],',"The temperature isn't the only thing dropping this November!",
+ "Our Winter Wrapped Up event has arrived at Pinkstones Used Car Centre, and we've reduced prices across a specially selected range of quality used cars.",
+ "Whether you're looking for a practical runaround, a family SUV or simply fancy a change, there's never been a better time to take a look at what's waiting for you.",
+ "And because we believe a great deal should come with a little something extra, we've wrapped up two fantastic benefits for you to choose from.",
+ 'YOUR CAR. YOUR CHOICE.',"2 YEARS' FREE SERVICING*",
+ 'Enjoy two manufacturer-recommended scheduled services with Pinkstones, helping you keep your next car in great shape without the cost of those services.',
+ 'OR','12-MONTH EXTENDED WARRANTY^',
+ "Enjoy an additional 12 months' warranty cover on top of our standard six-month used car warranty, giving you a total of 18 months' cover for added peace of mind.",
+ 'A GREAT CAR. A GREAT PRICE. SOMETHING EXTRA.',
+ 'With reduced prices and your choice of added benefits, Winter Wrapped Up is the perfect opportunity to find your next car for less.',
+ "But don't leave your favourite out in the cold! These offers are available on selected used cars until 30th November 2026, and once they're gone, they're gone.",
+ 'OFFER TERMS & CONDITIONS',
+ "Selected used vehicles only. Customers can choose either two years' free servicing with Pinkstones or a 12-month extended warranty. Offers cannot be combined. Promotional period 2nd–30th November 2026. Full terms and conditions apply.",
+ 'Visit our Used Car Centre','499 Newcastle Road','ST6 6PJ','01782 711661']
+for phrase in required: assert phrase in text, phrase
+assert SRC.count('BROWSE WINTER WRAPPED UP CARS')==2
+assert len(p.images)==9 and len(set(p.images))==9
+assert 'logo-a.png' not in SRC and 'position:absolute' not in SRC and '<v:' not in SRC
+assert '<script' not in SRC and 'javascript:' not in SRC
+assert '<unsubscribe ' in SRC and '<webversion ' in SRC and '[First Name]' not in SRC
+for unwanted in ['Toyota','MY25','PCP','APR','£44,355']: assert unwanted not in text
+assert all(int(h)<=2 for h in re.findall(r'(?:;|")height:\s*(\d+)px',SRC)), 'Fixed text height'
+assert all(int(h)<=2 for h in re.findall(r'<td\b[^>]* height="(\d+)"',SRC)), 'Fixed cell height'
+# Two CTA anchors and one separate full-terms link share the campaign URL.
+assert p.links.count('https://www.pinkstones.uk/winter-wrapped-up')==3
+for name,expected in [('winter-wrapped-up-campaign-monitor.zip',['winter-wrapped-up.html']+p.images),('winter-wrapped-up-images.zip',p.images)]:
+ with ZipFile(ROOT/name) as z:
+  assert z.testzip() is None and sorted(z.namelist())==sorted(expected)
+  for item in expected: assert z.read(item)==(ROOT/item).read_bytes()
+handler=functools.partial(http.server.SimpleHTTPRequestHandler,directory=str(ROOT))
+server=http.server.ThreadingHTTPServer(('127.0.0.1',0),handler)
+threading.Thread(target=server.serve_forever,daemon=True).start()
+results=[]; (ROOT/'previews').mkdir(exist_ok=True)
+with sync_playwright() as pw:
+ browser=pw.chromium.launch(executable_path=os.environ.get('CHROMIUM_PATH') or shutil.which('chromium'))
+ for width in (800,600,375,320):
+  page=browser.new_page(viewport={'width':width,'height':900},device_scale_factor=1)
+  page.goto(f'http://127.0.0.1:{server.server_port}/winter-wrapped-up.html')
+  page.locator('img').evaluate_all('(is)=>Promise.all(is.map(i=>i.decode()))')
+  assert page.locator('img').evaluate_all('(is)=>is.every(i=>i.naturalWidth>0)')
+  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'), width
+  assert page.locator('.shell').bounding_box()['width']<=600
+  # Preview fixture only: simulate a missing first name. This does not validate CM.
+  page.locator('multiline[label="Personalised greeting"]').evaluate("e=>e.innerHTML=e.innerHTML.replace('[firstname,fallback=there]','there')")
+  ctas=page.locator('.cta a'); assert ctas.count()==2
+  for a in ctas.all():
+   assert a.get_attribute('href')=='https://www.pinkstones.uk/winter-wrapped-up'
+   box=a.bounding_box(); assert box['height']>=44
+   a.scroll_into_view_if_needed(); box=a.bounding_box()
+   for dx,dy in [(2,box['height']/2),(box['width']-2,box['height']/2),(box['width']/2,2),(box['width']/2,box['height']-2)]:
+    assert page.evaluate('(p)=>!!document.elementFromPoint(p.x,p.y)?.closest("a")', {'x':box['x']+dx,'y':box['y']+dy})
+  page.evaluate('scrollTo(0,0)')
+  page.screenshot(path=str(ROOT/f'previews/email-{width}.png'),full_page=True)
+  for a in ctas.all():
+   a.evaluate("a=>{a.textContent='BROWSE ALL WINTER WRAPPED UP CARS AND DISCOVER YOUR CHOICE OF BENEFITS';a.href='https://example.com/edited-button';}")
+  page.locator('multiline[label="Offer terms and conditions"]').evaluate("e=>{e.innerHTML=Array.from({length:16},(_,i)=>'<p>Legal paragraph '+(i+1)+': '+('Additional detailed eligibility, servicing and warranty conditions. '.repeat(8))+'</p>').join('')}")
+  page.locator('singleline[label="Warranty benefit heading"]').evaluate("e=>e.textContent='12-MONTH EXTENDED WARRANTY FOR EXTRA PEACE OF MIND'")
+  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'), ('long text',width)
+  for a in ctas.all(): assert a.get_attribute('href')=='https://example.com/edited-button'
+  # All generated legal paragraphs must contribute to height and precede the footer.
+  legal=page.locator('multiline[label="Offer terms and conditions"]'); assert legal.locator('p').count()==16
+  assert legal.bounding_box()['height']>1000
+  assert page.locator('unsubscribe').bounding_box()['y']>legal.bounding_box()['y']+legal.bounding_box()['height']
+  if width==375: page.screenshot(path=str(ROOT/'previews/email-375-long-text.png'),full_page=True)
+  # Missing images and forced unstacked contact entries: ensure text still flows.
+  page.locator('img').evaluate_all('(is)=>is.forEach(i=>i.src="data:image/png;base64,invalid")')
+  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+  page.add_style_tag(content='@media screen { .pad{padding-left:40px!important;padding-right:40px!important} .contact-cell{display:table-cell!important;width:auto!important} }')
+  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'), ('base-layout',width)
+  results.append({'width':width,'initial':'pass','two_cta_border_hit_areas':'pass','long_copy_and_16_legal_paragraphs':'pass','missing_images':'pass','base_layout_contact_row':'pass'})
+  page.close()
+ browser.close()
+server.shutdown()
+report={'scope':'Local source/package checks and Chromium; no Campaign Monitor or email-client test', 'editable_regions':len(p.regions),'images':len(p.images),'content_phrases_checked':len(required),'structural_checks':'passed (strict tag stack including custom tags; not W3C validation)','packages':'passed exact archive membership and bytes','responsive':results}
+(ROOT/'LOCAL-VALIDATION.json').write_text(json.dumps(report,indent=2)+'\n')
+print(json.dumps(report,indent=2))
