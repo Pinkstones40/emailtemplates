@@ -86,15 +86,15 @@ content coverage. They do not prove that an account's editor preserves these
 controls after saving. Check every labelled region and both variants of the six image pairs after import and save/reopen.
 
 
-The current template contains nine default/light foreground images, six additional dark-mode variants, and the original fixed closing background. Hero, phone, web and social icons are labelled separately for the light and dark variants. Facebook, LinkedIn and TikTok visible text labels have been removed: each network now has one icon-only linked rich-text region with an accessible anchor name. The icon pair is inside that rich-text region. Validate the two image controls and the icon link in Campaign Monitor before live use. The dark counterpart may not be directly selectable in its visual editor when hidden; if that happens, amend the custom template source rather than assuming no-code edits are supported.
+The current template contains nine default/light foreground images, six additional dark-mode variants, and the original fixed closing background. Hero, phone, web and social icons are labelled separately for the light and dark variants. Facebook, LinkedIn and TikTok visible text labels have been removed: each network now has one clickable `<a>` wrapping the two separately editable images. There is **no enclosing `<multiline>`**, which Campaign Monitor prohibits for editable images. Each icon's image-edit controls may offer a destination URL, but the editor must be tested to ensure light/dark destinations stay synchronised. Validate the two image controls and the icon link in Campaign Monitor before live use. The dark counterpart may not be directly selectable in its visual editor when hidden; if that happens, amend the custom template source rather than assuming no-code edits are supported.
 
 ## New image variant controls
 
 - Hero artwork including Pinkstones logo — light mode / dark mode
 - Contact telephone icon — light mode / dark mode
 - Contact website icon — light mode / dark mode
-- Facebook destination icon — light mode / dark mode; rich-text link region **Facebook icon link**
-- LinkedIn destination icon — light mode / dark mode; rich-text link region **LinkedIn icon link**
-- TikTok destination icon — light mode / dark mode; rich-text link region **TikTok icon link**
+- Facebook destination icon — light mode / dark mode; one anchor around both images
+- LinkedIn destination icon — light mode / dark mode; one anchor around both images
+- TikTok destination icon — light mode / dark mode; one anchor around both images
 
-The old **Facebook destination**, **LinkedIn destination**, and **TikTok destination** text regions were intentionally replaced. The three links remain editable, but their click targets are now the paired icons, not visible words.
+The old **Facebook destination**, **LinkedIn destination**, and **TikTok destination** text regions were intentionally removed. The three links are embedded in HTML around image controls; Campaign Monitor's editable image interface offers URL options, but actual paired-image link edits must be validated after saving.
