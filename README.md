@@ -216,7 +216,7 @@ The light image is the **default** on clients without dark-mode media-query supp
 
 The supplied six new image variants are `hero-dark.png`, `phone-white.png`, `web-white.png`, `facebook-white.png`, `linkedin-white.png`, `tiktok-white.png`. All ten original assets remain unchanged. Dark variants are packaged in the image ZIP along with the originals.
 
-Facebook, LinkedIn and TikTok are **icon-only clickable links**, each with an accessible link name and two theme variants inside one rich-text link region. The underlying destinations are still generic platform URLs until the correct Pinkstones accounts are supplied; do not send with these placeholders. Phone and website keep their visible contact details.
+Facebook, LinkedIn and TikTok are **icon-only clickable links**, each with an accessible link name and two theme variants in a single anchor **outside `<multiline>`**. Campaign Monitor rejects editable images nested inside editable text regions. The underlying destinations are still generic platform URLs until the correct Pinkstones accounts are supplied; do not send with these placeholders. Phone and website keep their visible contact details.
 
 ### Android forced dark and buttons
 
@@ -224,4 +224,8 @@ There is **no Android-specific media query** or colour-lock trick. Gmail Android
 
 ### Critical import and client test
 
-Import the current GitHub Actions regenerated HTML + image ZIP. In Campaign Monitor edit/save/reopen both hero variants, both phone/web variant pairs, and all six social icon images plus their **one link per social network**. Verify the hidden dark variants remain linked after replacing the light variant and that the social icons are still clickable. Test Android Gmail forced dark, Apple Mail dark mode, Gmail light mode, and Outlook clients. Don't send the campaign until this test passes.
+Import the current GitHub Actions regenerated HTML + image ZIP. In Campaign Monitor edit/save/reopen both hero variants, both phone/web variant pairs, and all six social icon images plus their **one link per social network**. The image-edit controls can offer URL fields, rather than a rich-text link editor, so check both theme variants share the intended destination. Verify the hidden dark variants remain linked after replacing the light variant and that the social icons are still clickable. Test Android Gmail forced dark, Apple Mail dark mode, Gmail light mode, and Outlook clients. Don't send the campaign until this test passes.
+
+## Campaign Monitor nested editable region import correction
+
+The first import rejected three social icons because `<img editable>` tags were inside `<multiline>` regions. This revision removes those three `<multiline>` wrappers. Each social icon is a clickable `<a>` directly wrapping both separately labelled editable image variants. According to Campaign Monitor's image template documentation, the editable image control can expose an image destination URL. **Check and synchronise both light and dark social icon destinations when changing social links**; Campaign Monitor may alter anchor markup when an image's link is edited. Test the outcome after save/reopen. No text caption is displayed. If the editor prevents consistent editing of both variants, maintain the shared social link in the HTML template rather than introducing nested editable regions again.
