@@ -26,7 +26,7 @@ class Validate(HTMLParser):
   assert self.stack and self.stack[-1]==t,(t,self.stack[-5:]);self.stack.pop()
 source=(R/'email.html').read_text();v=Validate();v.feed(source);assert not v.stack
 assert len(v.images)==len(set(v.images))==13
-assert source.count('<unsubscribe ')==1 and source.count('<webversion ')==1
+assert source.count('<unsubscribe>Unsubscribe</unsubscribe>')==1 and source.count('<webversion ')==1
 assert not any(x in source for x in ['winter-wrapped-up/','localhost','file://','<v:'])
 (R/'STRUCTURE-CHECKS.json').write_text(json.dumps({'editable_regions':len(v.labels),'editable_images':len(v.images),'single_image_sources':True,'pending_urls':sorted(set(u for u in v.links if 'example.invalid' in u))},indent=2))
 results=[]
@@ -39,6 +39,10 @@ with sync_playwright() as p:
    result=page.evaluate('''() => ({width:innerWidth,scroll:document.documentElement.scrollWidth,height:document.documentElement.scrollHeight,broken:[...document.images].filter(i=>!i.complete||i.naturalWidth===0).map(i=>i.src),buttons:[...document.querySelectorAll('.cta a')].map(a=>({height:a.getBoundingClientRect().height,width:a.getBoundingClientRect().width}))})''')
    assert result['scroll']<=width,result
    assert not result['broken'],result
+   unsubscribe=page.locator('.unsubscribe-link a')
+   assert unsubscribe.count()==1 and unsubscribe.is_visible()
+   assert unsubscribe.inner_text()=='Unsubscribe'
+   assert float(unsubscribe.evaluate("a=>getComputedStyle(a).fontSize").replace('px',''))>=16
    assert all(a['height']>=44 for a in result['buttons']),result
    # Stress long editable content and image blocking at each width/theme.
    page.evaluate("""() => {document.querySelector('.cta a').textContent='A much longer call to action for business vehicle enquiries';document.querySelector('.legal p').textContent+=' Additional copy for layout stress.'.repeat(50);document.querySelectorAll('img').forEach(i=>i.src='/missing-test-image.png')}""")
