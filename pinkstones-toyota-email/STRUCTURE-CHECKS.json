@@ -1,0 +1,17 @@
+{
+  "editable_regions": 54,
+  "editable_images": 13,
+  "single_image_sources": true,
+  "pending_urls": [
+    "https://example.invalid/book-a-test-drive",
+    "https://example.invalid/browse-the-range",
+    "https://example.invalid/contact",
+    "https://example.invalid/contact-page",
+    "https://example.invalid/facebook",
+    "https://example.invalid/instagram",
+    "https://example.invalid/learn-more",
+    "https://example.invalid/linkedin",
+    "https://example.invalid/privacy",
+    "https://example.invalid/youtube"
+  ]
+}

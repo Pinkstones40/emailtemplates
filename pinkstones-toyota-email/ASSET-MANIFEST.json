@@ -1,0 +1,205 @@
+[
+  {
+    "file": "fleet-hero.png",
+    "method": "3x export of original PDF artwork only, no editable text",
+    "pdf_bounds": [
+      0,
+      0,
+      600,
+      240
+    ],
+    "sha256": "be91428d5e3e30c660123ffaf8a5dc32d49cfb9a048b9206998d8b585abf3666",
+    "dimensions": [
+      1800,
+      720
+    ]
+  },
+  {
+    "file": "dan-newton.png",
+    "method": "original embedded PNG extracted losslessly",
+    "pdf_bounds": [
+      373.9884948730469,
+      590.0,
+      534.988525390625,
+      746.0
+    ],
+    "pixels": [
+      644,
+      624
+    ],
+    "sha256": "8466f7ed6db4503940b9f8ea7bcded691e1b1a3ed0875e3c91cbc5c10e3395d8",
+    "dimensions": [
+      644,
+      624
+    ]
+  },
+  {
+    "file": "reassurance.png",
+    "method": "3x export of original PDF artwork only, no editable text",
+    "pdf_bounds": [
+      0,
+      781,
+      300,
+      1081
+    ],
+    "sha256": "1bc570eaab52149b1e0698302e7d001b0214570640a2548ef7a7067fcdab3be4",
+    "dimensions": [
+      900,
+      900
+    ]
+  },
+  {
+    "file": "smarter.png",
+    "method": "3x export of original PDF artwork only, no editable text",
+    "pdf_bounds": [
+      300,
+      1090,
+      600,
+      1390
+    ],
+    "sha256": "c74bc8c9ac6022ad21c263f22ed880728332f48edeff1ca4ad3beffcb752ce84",
+    "dimensions": [
+      900,
+      900
+    ]
+  },
+  {
+    "file": "hilux.png",
+    "method": "original embedded PNG extracted losslessly",
+    "pdf_bounds": [
+      0.0,
+      2023.9501953125,
+      600.0,
+      2361.9501953125
+    ],
+    "pixels": [
+      2400,
+      1352
+    ],
+    "sha256": "be012513086d3b78e821e3988bd0859fa950968512638e8c0e6b119fa21ab9c2",
+    "dimensions": [
+      2400,
+      1352
+    ]
+  },
+  {
+    "file": "warranty.png",
+    "method": "3x export of original PDF artwork only, no editable text",
+    "pdf_bounds": [
+      479.507080078125,
+      1586.8406982421875,
+      524.825927734375,
+      1632.1595458984375
+    ],
+    "sha256": "1e11af4e3ac2e635d21bbf1088838edba31c6a3d623dd41688b2201e235b47fb",
+    "dimensions": [
+      137,
+      137
+    ]
+  },
+  {
+    "file": "roadside.png",
+    "method": "3x export of original PDF artwork only, no editable text",
+    "pdf_bounds": [
+      461.66650390625,
+      1673.9688720703125,
+      542.66650390625,
+      1759.9688720703125
+    ],
+    "sha256": "491a09f2251eecd63eea972c365c99258f21931ef699f1614896f9a461417063",
+    "dimensions": [
+      243,
+      259
+    ]
+  },
+  {
+    "file": "courtesy.png",
+    "method": "3x export of original PDF artwork only, no editable text",
+    "pdf_bounds": [
+      479.64288330078125,
+      1800.0,
+      524.6428833007812,
+      1848.0
+    ],
+    "sha256": "20f6cbd09f8e4885449c1c1451fb9863c3d523f9e8e664199cb2f7c46168978d",
+    "dimensions": [
+      136,
+      144
+    ]
+  },
+  {
+    "file": "service.png",
+    "method": "3x export of original PDF artwork only, no editable text",
+    "pdf_bounds": [
+      474.66650390625,
+      1902.0,
+      529.5467529296875,
+      1961.0
+    ],
+    "sha256": "6ef8c2c6f6d184f3d9b609ed60a0607303114ddbdc5dcf592ec0338e23b3d63e",
+    "dimensions": [
+      165,
+      177
+    ]
+  },
+  {
+    "file": "instagram.png",
+    "method": "3x export of original PDF artwork only, no editable text",
+    "pdf_bounds": [
+      101,
+      2924,
+      147,
+      2974
+    ],
+    "sha256": "c712b8e3588ca3a7f0b7a8ae11b71863825debe158596c500166b39c51bb87b9",
+    "dimensions": [
+      138,
+      150
+    ]
+  },
+  {
+    "file": "facebook.png",
+    "method": "3x export of original PDF artwork only, no editable text",
+    "pdf_bounds": [
+      219,
+      2924,
+      265,
+      2974
+    ],
+    "sha256": "ab1c88c0a52b30d12928560037819abb06508ce4e3d02492381fe547bf681847",
+    "dimensions": [
+      138,
+      150
+    ]
+  },
+  {
+    "file": "linkedin.png",
+    "method": "3x export of original PDF artwork only, no editable text",
+    "pdf_bounds": [
+      337,
+      2924,
+      383,
+      2974
+    ],
+    "sha256": "e014a8a737e6e36d157fdb71844b16481abf11a3f0d175f4bf4ba2cebc851f10",
+    "dimensions": [
+      138,
+      150
+    ]
+  },
+  {
+    "file": "youtube.png",
+    "method": "3x export of original PDF artwork only, no editable text",
+    "pdf_bounds": [
+      455,
+      2924,
+      501,
+      2974
+    ],
+    "sha256": "728ca422e7386e42bc1c4e9b68795b421ae7e449589f36fb22221c75f1866617",
+    "dimensions": [
+      138,
+      150
+    ]
+  }
+]
