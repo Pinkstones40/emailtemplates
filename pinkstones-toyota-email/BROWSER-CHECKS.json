@@ -55,7 +55,7 @@
     "theme": "light",
     "width": 375,
     "scroll": 375,
-    "height": 5966,
+    "height": 5967,
     "broken": [],
     "buttons": [
       {
@@ -81,7 +81,7 @@
     "theme": "light",
     "width": 320,
     "scroll": 320,
-    "height": 6695,
+    "height": 6696,
     "broken": [],
     "buttons": [
       {
@@ -159,7 +159,7 @@
     "theme": "dark",
     "width": 375,
     "scroll": 375,
-    "height": 5966,
+    "height": 5967,
     "broken": [],
     "buttons": [
       {
@@ -185,7 +185,7 @@
     "theme": "dark",
     "width": 320,
     "scroll": 320,
-    "height": 6695,
+    "height": 6696,
     "broken": [],
     "buttons": [
       {

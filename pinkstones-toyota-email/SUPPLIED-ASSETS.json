@@ -1,0 +1,92 @@
+[
+  {
+    "file": "assets/supplied/Group 2.png",
+    "sha256": "1f34909fd6e30f864bc46d0625fda5901a7e0175cc7a9a729e8b921cfdfb86b7",
+    "dimensions": [
+      391,
+      38
+    ],
+    "template_asset": null
+  },
+  {
+    "file": "assets/supplied/Group 3.png",
+    "sha256": "d2bd7c0b3f8ab2602c22ebd0122c7f76de48c1e2c3ad2591c0fe2122b5970e23",
+    "dimensions": [
+      600,
+      520
+    ],
+    "template_asset": null
+  },
+  {
+    "file": "assets/supplied/Group 4.png",
+    "sha256": "574414ec57910fbe8ed84dac165a0253ed4e91be3227a8dfd54cf76503408a1e",
+    "dimensions": [
+      600,
+      310
+    ],
+    "template_asset": null
+  },
+  {
+    "file": "assets/supplied/Mask Group 58.png",
+    "sha256": "8bca0290a9ec0b78ae35a780a1f985a3ef4826af560a5a51571693bf6bf6b13e",
+    "dimensions": [
+      159,
+      155
+    ],
+    "template_asset": "dan-newton.png"
+  },
+  {
+    "file": "assets/supplied/Mask Group 59.png",
+    "sha256": "7bc29e6a308174dcd73b1c7c4a45da0dd14864b9d7d6303cec9b37d44df48bc4",
+    "dimensions": [
+      300,
+      300
+    ],
+    "template_asset": "reassurance.png"
+  },
+  {
+    "file": "assets/supplied/Mask Group 61.png",
+    "sha256": "2b71a490efdd81c5285ecf1f9c0ec46fd238320ac420e4d9804e1873adfd1c51",
+    "dimensions": [
+      300,
+      300
+    ],
+    "template_asset": "smarter.png"
+  },
+  {
+    "file": "assets/supplied/TOYOTA APPROVED USED ICON SET INSURANCE.png",
+    "sha256": "66885587d8e30a2bca23088b9070544a1e8fb856e1dc59d13ec1fc9d7194464a",
+    "dimensions": [
+      55,
+      59
+    ],
+    "template_asset": "warranty.png"
+  },
+  {
+    "file": "assets/supplied/Toyota_PRO_Shield_grey.png",
+    "sha256": "d5bc4efb635ba3ef97d34c39154b7fb33e628bc6d8bac6de0189cae5d5ce8228",
+    "dimensions": [
+      45,
+      48
+    ],
+    "template_asset": "courtesy.png"
+  },
+  {
+    "file": "assets/supplied/Toyota_PRO_Van_grey.png",
+    "sha256": "267a2bd529a8be6514c3e72e3d7be20da682008a6d5d5097c2784f1015d59822",
+    "dimensions": [
+      81,
+      86
+    ],
+    "template_asset": "roadside.png"
+  },
+  {
+    "file": "assets/supplied/Toyota_PRO_clock_grey.png",
+    "sha256": "6cbecd469cad3501dbcdc1e2985cc3f4390ca0d79621ac16fbc4b15e33fd0e5c",
+    "dimensions": [
+      55,
+      59
+    ],
+    "template_asset": "service.png"
+  }
+]

@@ -16,52 +16,33 @@
   },
   {
     "file": "dan-newton.png",
-    "method": "original embedded PNG extracted losslessly",
-    "pdf_bounds": [
-      373.9884948730469,
-      590.0,
-      534.988525390625,
-      746.0
-    ],
-    "pixels": [
-      644,
-      624
-    ],
-    "sha256": "8466f7ed6db4503940b9f8ea7bcded691e1b1a3ed0875e3c91cbc5c10e3395d8",
+    "method": "Byte-identical copy of user-supplied standalone PNG",
+    "source": "assets/supplied/Mask Group 58.png",
     "dimensions": [
-      644,
-      624
-    ]
+      159,
+      155
+    ],
+    "sha256": "8bca0290a9ec0b78ae35a780a1f985a3ef4826af560a5a51571693bf6bf6b13e"
   },
   {
     "file": "reassurance.png",
-    "method": "3x export of original PDF artwork only, no editable text",
-    "pdf_bounds": [
-      0,
-      781,
-      300,
-      1081
-    ],
-    "sha256": "1bc570eaab52149b1e0698302e7d001b0214570640a2548ef7a7067fcdab3be4",
+    "method": "Byte-identical copy of user-supplied standalone PNG",
+    "source": "assets/supplied/Mask Group 59.png",
     "dimensions": [
-      900,
-      900
-    ]
+      300,
+      300
+    ],
+    "sha256": "7bc29e6a308174dcd73b1c7c4a45da0dd14864b9d7d6303cec9b37d44df48bc4"
   },
   {
     "file": "smarter.png",
-    "method": "3x export of original PDF artwork only, no editable text",
-    "pdf_bounds": [
-      300,
-      1090,
-      600,
-      1390
-    ],
-    "sha256": "c74bc8c9ac6022ad21c263f22ed880728332f48edeff1ca4ad3beffcb752ce84",
+    "method": "Byte-identical copy of user-supplied standalone PNG",
+    "source": "assets/supplied/Mask Group 61.png",
     "dimensions": [
-      900,
-      900
-    ]
+      300,
+      300
+    ],
+    "sha256": "2b71a490efdd81c5285ecf1f9c0ec46fd238320ac420e4d9804e1873adfd1c51"
   },
   {
     "file": "hilux.png",
@@ -84,63 +65,43 @@
   },
   {
     "file": "warranty.png",
-    "method": "3x export of original PDF artwork only, no editable text",
-    "pdf_bounds": [
-      479.507080078125,
-      1586.8406982421875,
-      524.825927734375,
-      1632.1595458984375
-    ],
-    "sha256": "1e11af4e3ac2e635d21bbf1088838edba31c6a3d623dd41688b2201e235b47fb",
+    "method": "Byte-identical copy of user-supplied standalone PNG",
+    "source": "assets/supplied/TOYOTA APPROVED USED ICON SET INSURANCE.png",
     "dimensions": [
-      137,
-      137
-    ]
+      55,
+      59
+    ],
+    "sha256": "66885587d8e30a2bca23088b9070544a1e8fb856e1dc59d13ec1fc9d7194464a"
   },
   {
     "file": "roadside.png",
-    "method": "3x export of original PDF artwork only, no editable text",
-    "pdf_bounds": [
-      461.66650390625,
-      1673.9688720703125,
-      542.66650390625,
-      1759.9688720703125
-    ],
-    "sha256": "491a09f2251eecd63eea972c365c99258f21931ef699f1614896f9a461417063",
+    "method": "Byte-identical copy of user-supplied standalone PNG",
+    "source": "assets/supplied/Toyota_PRO_Van_grey.png",
     "dimensions": [
-      243,
-      259
-    ]
+      81,
+      86
+    ],
+    "sha256": "267a2bd529a8be6514c3e72e3d7be20da682008a6d5d5097c2784f1015d59822"
   },
   {
     "file": "courtesy.png",
-    "method": "3x export of original PDF artwork only, no editable text",
-    "pdf_bounds": [
-      479.64288330078125,
-      1800.0,
-      524.6428833007812,
-      1848.0
-    ],
-    "sha256": "20f6cbd09f8e4885449c1c1451fb9863c3d523f9e8e664199cb2f7c46168978d",
+    "method": "Byte-identical copy of user-supplied standalone PNG",
+    "source": "assets/supplied/Toyota_PRO_Shield_grey.png",
     "dimensions": [
-      136,
-      144
-    ]
+      45,
+      48
+    ],
+    "sha256": "d5bc4efb635ba3ef97d34c39154b7fb33e628bc6d8bac6de0189cae5d5ce8228"
   },
   {
     "file": "service.png",
-    "method": "3x export of original PDF artwork only, no editable text",
-    "pdf_bounds": [
-      474.66650390625,
-      1902.0,
-      529.5467529296875,
-      1961.0
-    ],
-    "sha256": "6ef8c2c6f6d184f3d9b609ed60a0607303114ddbdc5dcf592ec0338e23b3d63e",
+    "method": "Byte-identical copy of user-supplied standalone PNG",
+    "source": "assets/supplied/Toyota_PRO_clock_grey.png",
     "dimensions": [
-      165,
-      177
-    ]
+      55,
+      59
+    ],
+    "sha256": "6cbecd469cad3501dbcdc1e2985cc3f4390ca0d79621ac16fbc4b15e33fd0e5c"
   },
   {
     "file": "instagram.png",
